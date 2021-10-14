@@ -1,17 +1,15 @@
- <!-- Welcome to {{title}}
- Hello {{userName}}
- {{user.uID}}
- {{user.uName}}
- {{user.uMail}}
- {{users}}
- 
-  <ul>
-    <li *ngFor="let user of users">{{user.uName}}</li>
-  </ul> -->
 
-<app-navi></app-navi>
-<app-tasinmaz></app-tasinmaz>
-<app-users></app-users>
+<div class="container">
+  <app-navi></app-navi>
+  <div class="row">
+    <div class="col-md-3">
+      <app-tasinmaz></app-tasinmaz>
+      </div>
+      <div class="col-md-9">
+        <app-users></app-users>
+      </div>
+    </div>
+  <router-outlet></router-outlet>
+</div>
 
-<router-outlet></router-outlet>
 

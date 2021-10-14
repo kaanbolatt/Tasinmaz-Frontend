@@ -1,59 +1,27 @@
 import { Component, OnInit } from "@angular/core";
-
+import { User } from "src/app/models/user";
+import {HttpClient} from '@angular/common/http';
+import { UserResponseModel } from "src/app/models/userResponseModel";
+import { UsersService } from "src/app/services/users.service";
+//axios veya fetch
 @Component({
   selector: "app-users",
   templateUrl: "./users.component.html",
   styleUrls: ["./users.component.css"],
 })
 export class UsersComponent implements OnInit {
-  user = {
-    uID: 1,
-    uName: "Sumru",
-    uSurname: "Ozal",
-    uMail: "h2okaan@gmail.com",
-    uNumber: "123",
-    uAdress: "Ankara",
-    Status: "1",
-  }; //burada hata olabilir bookmark kontrol.
-  user2 = {
-    uID: 2,
-    uName: "Kenan",
-    uSurname: "Ozal",
-    uMail: "h2okaan@gmail.com",
-    uNumber: "123",
-    uAdress: "Ankara",
-    Status: "1",
-  }; //burada hata olabilir bookmark kontrol.
-  user3 = {
-    uID: 3,
-    uName: "Özlem",
-    uSurname: "Ozal",
-    uMail: "h2okaan@gmail.com",
-    uNumber: "123",
-    uAdress: "Ankara",
-    Status: "1",
-  }; //burada hata olabilir bookmark kontrol.
-  user4 = {
-    uID: 4,
-    uName: "Esma",
-    uSurname: "Ozal",
-    uMail: "h2okaan@gmail.com",
-    uNumber: "123",
-    uAdress: "Ankara",
-    Status: "1",
-  }; //burada hata olabilir bookmark kontrol.
-  user5 = {
-    uID: 5,
-    uName: "Yılmaz",
-    uSurname: "Ozal",
-    uMail: "h2okaan@gmail.com",
-    uNumber: "123",
-    uAdress: "Ankara",
-    Status: "1",
-  }; //burada hata olabilir bookmark kontrol.
-  users = [this.user, this.user2, this.user3, this.user4, this.user5];
+  users: User[] = [];
 
-  constructor() {}
 
-  ngOnInit() {}
+  constructor(private usersService:UsersService) {}
+
+  ngOnInit() {
+    this.getUsers();
+  }
+
+  getUsers(){
+this.usersService.getUsers().subscribe(response=>{
+this.users=response.data
+})
+  }
 }
