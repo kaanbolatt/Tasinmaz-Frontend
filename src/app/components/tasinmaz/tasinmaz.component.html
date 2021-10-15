@@ -1,7 +1,10 @@
 <ul class="list-group">
-  <li class="list-group-item">An item</li>
-  <li class="list-group-item">A second item</li>
-  <li class="list-group-item">A third item</li>
-  <li class="list-group-item">A fourth item</li>
-  <li class="list-group-item">And a fifth one</li>
+  <li (click)="setCurrentTasinmaz(tasinmaz)"
+    *ngFor="let tasinmaz of tasinmaz"
+    routerLink = "/users/tasinmaz/{{tasinmaz.tID}}"
+    [class]="getCurrentTasinmazClass(tasinmaz)">
+    Nitelik: {{ tasinmaz.nitelik }}
+  </li>
 </ul>
+
+<h5 *ngIf="currentTasinmaz">{{ currentTasinmaz.tID }} seçtiniz.</h5>

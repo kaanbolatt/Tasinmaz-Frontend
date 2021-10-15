@@ -1,7 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { User } from "src/app/models/user";
 import {HttpClient} from '@angular/common/http';
-import { UserResponseModel } from "src/app/models/userResponseModel";
 import { UsersService } from "src/app/services/users.service";
 //axios veya fetch
 @Component({
@@ -20,8 +19,10 @@ export class UsersComponent implements OnInit {
   }
 
   getUsers(){
-this.usersService.getUsers().subscribe(response=>{
-this.users=response.data
+  this.usersService.getUsers().subscribe(response=>{
+  this.users=response.data
+
 })
+
   }
 }
