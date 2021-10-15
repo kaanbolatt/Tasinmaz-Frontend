@@ -1,0 +1,52 @@
+<div class="content">
+  <div class="col-md-12">
+    <div class="card">
+      <div class="card-header"><h5 class="title">Kullanıcı Ekle</h5></div>
+      <div class="card-body">
+        <form [formGroup]="userAddForm">
+          <div class="form-group">
+            <div class= "mb-3">
+              <label for="uName">Ad</label>
+            <input type="text" id="uName" formControlName="uName" class="form-control" placeholder="Ad" />
+          </div>
+            </div>
+            <div class= "mb-3">
+          <label for="uName">Soyad</label>
+          <div class="form-group">
+            <input type="text" id="uSurname" formControlName="uSurname" class="form-control" placeholder="Soyad" />
+          </div>
+          </div>
+          <div class= "mb-3">
+          <label for="uName">Mail</label>
+          <div class="form-group">
+            <input type="email" id="uMail" formControlName="uMail" class="form-control" placeholder="Mail" />
+          </div>
+          </div>
+          <div class= "mb-3">
+          <label for="uName">Numara</label>
+          <div class="form-group">
+            <input type="text" id="uNumber" formControlName="uNumber" class="form-control" placeholder="Numara" />
+          </div>
+          </div>
+          <div class= "mb-3">
+          <label for="uName">Adres</label>
+          <div class="form-group">
+            <input type="text" id="uAdress" formControlName="uAdress" class="form-control" placeholder="Adres" />
+          </div>
+          </div>
+          <div class= "mb-3">
+          <label for="uName">Şifre</label>
+          <div class="form-group">
+            <input type="password" id="password" formControlName="password" class="form-control" placeholder="Şifre" />
+          </div>
+          </div>
+        </form>
+      </div>
+      <div>
+        <div class="card-footer">
+          <button class ="btn btn-fill btn-primary" (click)="add()">Ekle</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

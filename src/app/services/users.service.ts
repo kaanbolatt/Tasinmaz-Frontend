@@ -10,11 +10,15 @@ import { User } from '../models/user';
 })
 export class UsersService {
 
-  apiUrl = "https://localhost:44347/api/users/getall";
+  apiUrl = "https://localhost:44347/api/";
 
   constructor(private httpClient:HttpClient) { }
   
   getUsers():Observable<ListResponseModel<User>>{
-    return this.httpClient.get<ListResponseModel<User>>(this.apiUrl);
+    return this.httpClient.get<ListResponseModel<User>>(this.apiUrl+"users/getall");
+  }
+
+  add(user:User){
+    return this.httpClient.post(this.apiUrl+"users/add",user)
   }
 }

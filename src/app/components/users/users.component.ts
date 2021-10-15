@@ -10,6 +10,7 @@ import { UsersService } from "src/app/services/users.service";
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];
+  filterText="";
 
 
   constructor(private usersService:UsersService) {}
