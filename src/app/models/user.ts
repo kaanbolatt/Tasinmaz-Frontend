@@ -3,7 +3,6 @@ export interface User{
     uName:string;
     uSurname:string;
     uMail:string;
-    uNumber:number;
     uAdress:string;
     Status:boolean;
     uPasswordHash:any;

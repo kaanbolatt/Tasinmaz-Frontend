@@ -29,9 +29,8 @@ export class UserAddComponent implements OnInit {
     this.userAddForm = this.formBuilder.group({
       uName: ["", Validators.required],
       uSurname: ["", Validators.required],
-      uMail: ["", [Validators.email, Validators.required]],
-      uNumber: ["", Validators.required],
       uAdress: ["", Validators.required],
+      uMail: ["", [Validators.email,Validators.required]],
       password: ["", Validators.required],
     });
   }
@@ -41,7 +40,7 @@ export class UserAddComponent implements OnInit {
       let userModel = Object.assign({}, this.userAddForm.value);
       this.userService.add(userModel).subscribe((data) => {
         console.log(data);
-        this.toastrService.success("Kullanıcı eklendi!", "Başarılı!");
+        this.toastrService.success(data.message, "Başarılı!");
       });
     } else {
       this.toastrService.error("Formunuz eksik.", "Dikkat!");
