@@ -39,8 +39,14 @@ export class UserAddComponent implements OnInit {
     if (this.userAddForm.valid) {
       let userModel = Object.assign({}, this.userAddForm.value);
       this.userService.add(userModel).subscribe((data) => {
-        console.log(data);
-        this.toastrService.success(data.message, "Başarılı!");
+        this.toastrService.success(data.message, "Başarılı!")
+      }, responseError=>{
+        if(responseError.error.Errors.length >0){
+          for (let i = 0; i < responseError.console.error.Errors.length; i++) {
+            this.toastrService.error(responseError.error.Errors[i].ErrorMassage,"Doğrulama hatası.")
+         }
+         
+        }
       });
     } else {
       this.toastrService.error("Formunuz eksik.", "Dikkat!");
