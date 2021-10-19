@@ -10,9 +10,12 @@ import { NaviComponent } from "./components/navi/navi.component";
 import { VatAddedPipe } from "./pipes/vat-added.pipe";
 import { FilterPipePipe } from "./pipes/filter-pipe.pipe";
 import { UserAddComponent } from "./components/user-add/user-add.component";
-import { ToastrModule } from 'ngx-toastr';
-import { LoginComponent } from './components/login/login.component';
+import { ToastrModule } from "ngx-toastr";
+import { LoginComponent } from "./components/login/login.component";
 import { AuthInterceptor } from "./interceptors/auth.interceptor";
+import { TasinmazAddComponent } from "./components/tasinmaz-add/tasinmaz-add.component";
+import { Ng2SearchPipeModule } from "ng2-search-filter";
+import { NgxPaginationModule } from "ngx-pagination";
 
 @NgModule({
   declarations: [
@@ -24,6 +27,7 @@ import { AuthInterceptor } from "./interceptors/auth.interceptor";
     FilterPipePipe,
     UserAddComponent,
     LoginComponent,
+    TasinmazAddComponent,
   ],
   imports: [
     BrowserModule,
@@ -32,12 +36,14 @@ import { AuthInterceptor } from "./interceptors/auth.interceptor";
     FormsModule,
     ReactiveFormsModule,
     ToastrModule.forRoot({
-      positionClass:"toast-bottom-right"
-      }),
+      positionClass: "toast-bottom-right",
+    }),
+    Ng2SearchPipeModule,
+    NgxPaginationModule
   ],
   providers: [
-    {provide:HTTP_INTERCEPTORS, useClass:AuthInterceptor, multi:true}
+    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent],
+  bootstrap: [AppComponent,UsersComponent,TasinmazComponent],
 })
 export class AppModule {}

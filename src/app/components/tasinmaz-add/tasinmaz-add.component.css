@@ -1,6 +1,6 @@
 @import "~ngx-toastr/toastr.css";
 .btn-danger {
-  margin-left: 420px;
+  margin-left: 413px;
 }
 
 .btn-primary {
@@ -35,10 +35,6 @@ body {
   margin-left: 620px;
 }
 .input-group-text{
-  width: 220px;
-  margin-left: 620px;
-}
-.form-select{
   width: 220px;
   margin-left: 620px;
 }

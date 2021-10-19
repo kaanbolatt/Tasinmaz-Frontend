@@ -1,27 +1,35 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
-import { ListResponseModel } from '../models/listResponseModel';
-import { Tasinmaz } from '../models/tasinmaz';
-
-
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Observable } from "rxjs";
+import { ListResponseModel } from "../models/listResponseModel";
+import { Tasinmaz } from "../models/tasinmaz";
+import { ResponseModel } from "../models/responseModel";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class TasinmazService {
-
   apiUrl = "https://localhost:44347/api/";
 
-  constructor(private httpClient:HttpClient) { }
-  
-  getTasinmaz():Observable<ListResponseModel<Tasinmaz>>{
-    let newPath = this.apiUrl + "tasinmaz/getall"
+  constructor(private httpClient: HttpClient) {}
+
+  getTasinmaz(): Observable<ListResponseModel<Tasinmaz>> {
+    let newPath = this.apiUrl + "tasinmaz/getall";
     return this.httpClient.get<ListResponseModel<Tasinmaz>>(newPath);
   }
 
-  getTasinmazByUser(uID:number):Observable<ListResponseModel<Tasinmaz>>{
-    let newPath = this.apiUrl + "/tasinmaz/getbyuserid?uID="+uID
+  getTasinmazByUser(uID: number): Observable<ListResponseModel<Tasinmaz>> {
+    let newPath = this.apiUrl + "/tasinmaz/getbyuserid?uID=" + uID;
     return this.httpClient.get<ListResponseModel<Tasinmaz>>(newPath);
+  }
+  add(tasinmaz: Tasinmaz): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(
+      this.apiUrl + "tasinmaz​/tasinmazadd",
+      tasinmaz
+    );
+  }
+
+  deleteTasinmaz(tID) {
+    return this.httpClient.delete(this.apiUrl + "tasinmaz/" + tID);
   }
 }

@@ -1,0 +1,35 @@
+.btn-danger {
+  margin-left: 768px;
+}
+
+.nav-link {
+  margin-left: 200px;
+}
+html,
+body {
+  background-image: url("https://cdn.discordapp.com/attachments/816181426034180096/899617500185100348/wallpaperTasinmaz.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 875px;
+  font-family: "Numans", sans-serif;
+}
+.form-control {
+  width: 15%;
+  margin-left: 1300px;
+}
+.card {
+  border-radius: 5rem;
+  width: 1500px;
+  margin-left: 200px;
+  margin-top: 20px;
+}
+
+.pagination {
+  margin-left: -920px;
+  margin-top: 50px;
+}
+
+.row {
+  margin-left: 75px;
+  margin-top: 30px;
+}

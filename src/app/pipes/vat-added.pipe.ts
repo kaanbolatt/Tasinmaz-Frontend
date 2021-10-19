@@ -9,4 +9,8 @@ export class VatAddedPipe implements PipeTransform {
     return null;
   }
 
+  transformTasinmaz(value: any, args?: any): any {
+    return null;
+  }
+
 }

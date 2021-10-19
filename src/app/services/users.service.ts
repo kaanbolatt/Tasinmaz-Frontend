@@ -22,4 +22,10 @@ export class UsersService {
   add(user:User):Observable<ResponseModel>{
     return this.httpClient.post<ResponseModel>(this.apiUrl+"auth/register",user)
   }
+  deleteUser(uID){
+
+    return this.httpClient.delete(this.apiUrl+"users/"+uID)
+    
+
+  }
 }

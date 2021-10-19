@@ -5,6 +5,7 @@ import {
   FormControl,
   Validators,
 } from "@angular/forms";
+import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { UsersService } from "src/app/services/users.service";
 
@@ -18,7 +19,8 @@ export class UserAddComponent implements OnInit {
   constructor(
     private formBuilder: FormBuilder,
     private userService: UsersService,
-    private toastrService: ToastrService
+    private toastrService: ToastrService,
+    private router: Router
   ) {}
 
   ngOnInit() {
@@ -30,7 +32,7 @@ export class UserAddComponent implements OnInit {
       uName: ["", Validators.required],
       uSurname: ["", Validators.required],
       uAdress: ["", Validators.required],
-      uMail: ["", [Validators.email,Validators.required]],
+      uMail: ["", [Validators.email, Validators.required]],
       password: ["", Validators.required],
     });
   }
@@ -38,18 +40,35 @@ export class UserAddComponent implements OnInit {
   add() {
     if (this.userAddForm.valid) {
       let userModel = Object.assign({}, this.userAddForm.value);
-      this.userService.add(userModel).subscribe((data) => {
-        this.toastrService.success(data.message, "Başarılı!")
-      }, responseError=>{
-        if(responseError.error.Errors.length >0){
-          for (let i = 0; i < responseError.console.error.Errors.length; i++) {
-            this.toastrService.error(responseError.error.Errors[i].ErrorMassage,"Doğrulama hatası.")
-         }
-         
+      this.userService.add(userModel).subscribe(
+        (data) => {
+          this.toastrService.success(
+            data.message,
+            "Kullanıcı başarıyla eklendi!"
+          );
+          this.router.navigateByUrl("userlist");
+        },
+        (responseError) => {
+          if (responseError.error.Errors.length > 0) {
+            for (
+              let i = 0;
+              i < responseError.console.error.Errors.length;
+              i++
+            ) {
+              this.toastrService.error(
+                responseError.error.Errors[i].ErrorMassage,
+                "Doğrulama hatası."
+              );
+            }
+          }
         }
-      });
+      );
     } else {
       this.toastrService.error("Formunuz eksik.", "Dikkat!");
     }
+  }
+  logout() {
+    localStorage.removeItem("token");
+    window.location.reload();
   }
 }
