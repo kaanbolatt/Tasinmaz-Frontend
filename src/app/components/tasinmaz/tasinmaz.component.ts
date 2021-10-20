@@ -13,6 +13,12 @@ export class TasinmazComponent implements OnInit {
   currentTasinmaz: Tasinmaz;
   filterTextTasinmaz = "";
   p:number = 1;
+  public popoverTitle: string ='Dikkat';
+  public popoverMessage: string ='Bu taşınmazı silmek istediğinize emin misiniz?';
+  public confirmClicked: boolean = false;
+  public cancelClicked: boolean = false;
+  public cancelText: string = "İptal";
+  public confirmText: string = "Sil";
   constructor(private tasinmazService: TasinmazService, private router: Router) {}
 
   ngOnInit() {

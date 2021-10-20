@@ -23,6 +23,27 @@
   </nav>
 
   <!-- navi -->
+  <!-- Modal start -->
+  <ng-template #template>
+    <div class="modal-header">
+      <h4 class="modal-title pull-left">Modal</h4>
+      <button type="button" class="close pull-right" aria-label="Close" (click)="modelRef.hide()">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <label>Name</label>
+      <input type="text"class="form-control"   /><br  />
+      <label>Email</label>
+      <input type="text" class="form-control"  /><br  />
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-primary pull-right"  (click)="modelRef.hide()">
+        Close
+      </button>
+    </div>
+  </ng-template>
+  <!-- Modal end -->
   <body>
     <div class="mb-3">
       <br />
@@ -103,7 +124,14 @@
               </button>
             </td>
             <td>
-              <button class="btn btn-light" (click)="deleteUser(user.uID)">
+              <button class="btn btn-light" mwlConfirmationPopover
+              [popoverTitle]="popoverTitle"
+              [popoverMessage]="popoverMessage"
+              placement="left"
+              [cancelText]="cancelText"
+              [confirmText]="confirmText"
+              (confirm)="deleteUser(user.uID)"
+              (cancel)="cancelClicked =true">
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20 "

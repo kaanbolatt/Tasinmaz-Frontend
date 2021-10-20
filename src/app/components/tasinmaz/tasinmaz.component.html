@@ -1,5 +1,6 @@
 <html>
   <title>odakGIS - Taşınmaz List</title>
+  <!-- navi -->
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="container-fluid">
       <ul class="navbar-nav">
@@ -21,8 +22,11 @@
       </ul>
     </div>
   </nav>
-
   <!-- navi -->
+  <!-- Modal -->
+
+  <!-- Modal -->
+
   <body>
     <div class="mb-3">
       <br />
@@ -127,7 +131,14 @@
             <td>
               <button
                 class="btn btn-light"
-                (click)="deleteTasinmaz(tasinmaz.tID)"
+                mwlConfirmationPopover
+                [popoverTitle]="popoverTitle"
+                [popoverMessage]="popoverMessage"
+                placement="left"
+                [cancelText]="cancelText"
+                [confirmText]="confirmText"
+                (confirm)="deleteTasinmaz(tasinmaz.tID)"
+                (cancel)="cancelClicked = true"
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

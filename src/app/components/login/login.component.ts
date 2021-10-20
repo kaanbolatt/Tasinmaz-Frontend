@@ -28,6 +28,9 @@ export class LoginComponent implements OnInit {
   }
   ngOnInit(): void {
     this.createLoginForm();
+    if(localStorage.getItem("token") != null){
+      this.router.navigateByUrl("tasinmazlist");
+    }
   }
 
   createLoginForm() {

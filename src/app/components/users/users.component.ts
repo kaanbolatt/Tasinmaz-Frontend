@@ -1,10 +1,9 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, TemplateRef } from "@angular/core";
 import { User } from "src/app/models/user";
 import { UsersService } from "src/app/services/users.service";
 import { Router, RouterModule } from "@angular/router";
 //axios veya fetch
 @Component({
-
   templateUrl: "./users.component.html",
   styleUrls: ["./users.component.css"],
 })
@@ -13,6 +12,13 @@ export class UsersComponent implements OnInit {
   searchText = "";
   currentUser: User;
   p: number = 1;
+  public popoverTitle: string = "Dikkat";
+  public popoverMessage: string =
+    "Bu kullanıcıyı silmek istediğinize emin misiniz?";
+  public confirmClicked: boolean = false;
+  public cancelClicked: boolean = false;
+  public cancelText: string = "İptal";
+  public confirmText: string = "Sil";
 
   constructor(private usersService: UsersService, private router: Router) {}
 
@@ -44,9 +50,9 @@ export class UsersComponent implements OnInit {
   userAdder() {
     this.router.navigateByUrl("useradd");
   }
-  deleteUser(uID: any){
-    this.usersService.deleteUser(uID).subscribe(data=>{
+  deleteUser(uID: any) {
+    this.usersService.deleteUser(uID).subscribe((data) => {
       this.getUsers();
-    })
+    });
   }
 }

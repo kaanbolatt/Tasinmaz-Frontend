@@ -22,11 +22,9 @@ export class TasinmazService {
     let newPath = this.apiUrl + "/tasinmaz/getbyuserid?uID=" + uID;
     return this.httpClient.get<ListResponseModel<Tasinmaz>>(newPath);
   }
+
   add(tasinmaz: Tasinmaz): Observable<ResponseModel> {
-    return this.httpClient.post<ResponseModel>(
-      this.apiUrl + "tasinmaz​/tasinmazadd",
-      tasinmaz
-    );
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "tasinmaz​/tasinmazadd",tasinmaz);
   }
 
   deleteTasinmaz(tID) {

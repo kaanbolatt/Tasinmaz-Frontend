@@ -32,8 +32,8 @@ export class LoginGuard implements CanActivate {
       return true;
     }
     else{
-      this.router.navigate(["login"])
-      window.location.reload()
+      this.router.navigate([""])
+      
       return false;
     }
   }

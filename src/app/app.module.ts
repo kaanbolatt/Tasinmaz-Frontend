@@ -16,11 +16,14 @@ import { AuthInterceptor } from "./interceptors/auth.interceptor";
 import { TasinmazAddComponent } from "./components/tasinmaz-add/tasinmaz-add.component";
 import { Ng2SearchPipeModule } from "ng2-search-filter";
 import { NgxPaginationModule } from "ngx-pagination";
+import { ConfirmationPopoverModule } from "angular-confirmation-popover";
+
+
+
 
 @NgModule({
   declarations: [
     AppComponent,
-    UsersComponent,
     TasinmazComponent,
     NaviComponent,
     VatAddedPipe,
@@ -28,6 +31,7 @@ import { NgxPaginationModule } from "ngx-pagination";
     UserAddComponent,
     LoginComponent,
     TasinmazAddComponent,
+    UsersComponent
   ],
   imports: [
     BrowserModule,
@@ -39,11 +43,15 @@ import { NgxPaginationModule } from "ngx-pagination";
       positionClass: "toast-bottom-right",
     }),
     Ng2SearchPipeModule,
-    NgxPaginationModule
+    NgxPaginationModule,
+    ConfirmationPopoverModule.forRoot({confirmButtonType:'danger'}),
+
+
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
   bootstrap: [AppComponent,UsersComponent,TasinmazComponent],
+  entryComponents:[TasinmazComponent]
 })
 export class AppModule {}

@@ -1,5 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { LoginModel } from '../models/loginModel';
 
 import { SingleResponseModel } from '../models/singleResponseModel';
@@ -11,7 +12,7 @@ import { TokenModel } from '../models/tokenModel';
 export class AuthService {
   apiUrl = "https://localhost:44347/api/auth/";
 
-  constructor(private httpClient:HttpClient) { }
+  constructor(private httpClient:HttpClient,  private router: Router) { }
   login(loginModel:LoginModel) {
     return this.httpClient.post<SingleResponseModel<TokenModel>>(this.apiUrl+"login",loginModel)
   }
@@ -20,6 +21,8 @@ export class AuthService {
       return true;
     }
     else{
+      this.router.navigate([""])
+      
       return false;
     }
   }
