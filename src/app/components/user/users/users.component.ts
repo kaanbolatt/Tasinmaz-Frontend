@@ -2,6 +2,10 @@ import { Component, OnInit, TemplateRef } from "@angular/core";
 import { User } from "src/app/models/user";
 import { UsersService } from "src/app/services/users.service";
 import { Router, RouterModule } from "@angular/router";
+
+
+
+
 //axios veya fetch
 @Component({
   templateUrl: "./users.component.html",
@@ -9,10 +13,12 @@ import { Router, RouterModule } from "@angular/router";
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];
+
   searchText = "";
   currentUser: User;
   p: number = 1;
-  public popoverTitle: string = "Dikkat";
+  filterTextUser="";
+  public popoverTitle: string = "Dikkat!";
   public popoverMessage: string =
     "Bu kullanıcıyı silmek istediğinize emin misiniz?";
   public confirmClicked: boolean = false;
@@ -55,4 +61,8 @@ export class UsersComponent implements OnInit {
       this.getUsers();
     });
   }
+  userUpdate(uID: any) {
+    this.router.navigateByUrl("userupdate/{{uID}}"+uID)
+  }
+  
 }

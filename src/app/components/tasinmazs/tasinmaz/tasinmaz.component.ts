@@ -13,7 +13,7 @@ export class TasinmazComponent implements OnInit {
   currentTasinmaz: Tasinmaz;
   filterTextTasinmaz = "";
   p:number = 1;
-  public popoverTitle: string ='Dikkat';
+  public popoverTitle: string ='Dikkat!';
   public popoverMessage: string ='Bu taşınmazı silmek istediğinize emin misiniz?';
   public confirmClicked: boolean = false;
   public cancelClicked: boolean = false;
@@ -29,6 +29,9 @@ export class TasinmazComponent implements OnInit {
       this.tasinmaz = response.data;
     });
   }
+  setCurrentTasinmaz(tasinmaz: Tasinmaz) {
+    this.currentTasinmaz = tasinmaz;
+  }
   logout(){
     localStorage.removeItem("token");
     window.location.reload();
@@ -40,5 +43,8 @@ export class TasinmazComponent implements OnInit {
     this.tasinmazService.deleteTasinmaz(tID).subscribe(data=>{
       this.getTasinmaz();
     })
+  }
+  tasinmazUpdate(tID: any) {
+    this.router.navigateByUrl("tasinmazupdate/{{tID}}"+tID)
   }
 }

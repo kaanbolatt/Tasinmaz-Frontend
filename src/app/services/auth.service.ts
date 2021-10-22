@@ -1,28 +1,29 @@
-import { HttpClient } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Router } from '@angular/router';
-import { LoginModel } from '../models/loginModel';
-
-import { SingleResponseModel } from '../models/singleResponseModel';
-import { TokenModel } from '../models/tokenModel';
+import { HttpClient } from "@angular/common/http";
+import { Injectable } from "@angular/core";
+import { Router } from "@angular/router";
+import { LoginModel } from "../models/loginModel";
+import { SingleResponseModel } from "../models/singleResponseModel";
+import { TokenModel } from "../models/tokenModel";
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root",
 })
 export class AuthService {
   apiUrl = "https://localhost:44347/api/auth/";
 
-  constructor(private httpClient:HttpClient,  private router: Router) { }
-  login(loginModel:LoginModel) {
-    return this.httpClient.post<SingleResponseModel<TokenModel>>(this.apiUrl+"login",loginModel)
+  constructor(private httpClient: HttpClient, private router: Router) {}
+  login(loginModel: LoginModel) {
+    return this.httpClient.post<SingleResponseModel<TokenModel>>(
+      this.apiUrl + "login",
+      loginModel
+    );
   }
-  isAuthenticated(){
-    if(localStorage.getItem("token")){
+  isAuthenticated() {
+    if (localStorage.getItem("token")) {
       return true;
-    }
-    else{
-      this.router.navigate([""])
-      
+    } else {
+      this.router.navigate([""]);
+
       return false;
     }
   }

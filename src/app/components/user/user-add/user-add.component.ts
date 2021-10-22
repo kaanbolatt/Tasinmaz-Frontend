@@ -16,6 +16,13 @@ import { UsersService } from "src/app/services/users.service";
 })
 export class UserAddComponent implements OnInit {
   userAddForm: FormGroup;
+  public popoverTitle: string = "Dikkat!";
+  public popoverMessage: string =
+    "Bu kullanıcıyı eklemek istediğinize emin misiniz?";
+  public confirmClicked: boolean = false;
+  public cancelClicked: boolean = false;
+  public cancelText: string = "İptal";
+  public confirmText: string = "Ekle";
   constructor(
     private formBuilder: FormBuilder,
     private userService: UsersService,

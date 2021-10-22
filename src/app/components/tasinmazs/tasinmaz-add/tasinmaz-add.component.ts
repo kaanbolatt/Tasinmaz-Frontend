@@ -15,6 +15,14 @@ import { TasinmazService } from "src/app/services/tasinmaz.service";
 })
 export class TasinmazAddComponent implements OnInit {
   tasinmazAddForm: FormGroup;
+  public popoverTitle: string = "Dikkat!";
+  public popoverMessage: string =
+    "Bu taşınmazı eklemek istediğinize emin misiniz?";
+  public confirmClicked: boolean = false;
+  public cancelClicked: boolean = false;
+  public cancelText: string = "İptal";
+  public confirmText: string = "Ekle";
+
   constructor(
     private formBuilder: FormBuilder,
     private tasinmazService: TasinmazService,

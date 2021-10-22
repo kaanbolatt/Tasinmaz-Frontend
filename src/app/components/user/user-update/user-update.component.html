@@ -1,0 +1,139 @@
+<html>
+  <title>odakGIS - User Update</title>
+  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+    <div class="container-fluid">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-link active" href="useradd">Kullanıcı Güncelle</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="loglist">Log İşlemleri</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="tasinmazlist">Taşınmaz Listesi</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="userlist">Kullanıcı Listesi</a>
+        </li>
+        <li class="d-flex">
+          <button type="button" class="btn btn-danger" (click)="logout()">
+            Çıkış Yap
+          </button>
+        </li>
+      </ul>
+    </div>
+  </nav>
+
+  <!-- navi -->
+
+  <div class="content">
+    <div class="col-md-1">
+      <div class="card">
+        <div class="card-header"><h5 class="title">Kullanıcı Güncelle</h5></div>
+        <div class="card-body">
+          <form [formGroup]="editUser">
+            <div class="form-group">
+              <div class="mb-3">
+                <label class="input-group-text" for="inputGroupSelect01"
+                  >Ad</label
+                >
+                <input
+                  type="text"
+                  id="uName"
+                  formControlName="uName"
+                  class="form-control"
+                  placeholder="Ad"
+                />
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="input-group-text" for="inputGroupSelect01"
+                >Soyad</label
+              >
+              <div class="form-group">
+                <input
+                  type="text"
+                  id="uSurname"
+                  formControlName="uSurname"
+                  class="form-control"
+                  placeholder="Soyad"
+                />
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="input-group-text" for="inputGroupSelect01"
+                >Mail</label
+              >
+              <div class="form-group">
+                <input
+                  type="email"
+                  id="uMail"
+                  formControlName="uMail"
+                  class="form-control"
+                  placeholder="Mail"
+                />
+                <label class="hata-lbl-kullanici text-danger" *ngIf="editUser.get('email').touched && editUser.get('email').errors?.required">Mail adresinizi boş bırakamazsınız.</label> 
+                <label class="hata-lbl-kullanici text-danger" *ngIf="editUser.get('email').touched && editUser.get('email').errors?.email">Lütfen mail adresinizi düzeltin.</label> 
+                
+              </div>
+            </div>
+            <div class="mb-3">
+              <label class="input-group-text" for="inputGroupSelect01"
+                >Adres</label
+              >
+              <div class="form-group">
+                <input
+                  type="text"
+                  id="uAdress"
+                  formControlName="uAdress"
+                  class="form-control"
+                  placeholder="Adres"
+                />
+              </div>
+            </div>
+            <!-- <div class="mb-3">
+              <label class="input-group-text" for="inputGroupSelect01">Rol</label>
+      <select class="form-select" id="inputGroupSelect01" formControlName="uRole">
+        <option [ngValue]="true">Kullanıcı</option>
+        <option [ngValue]="false">Yönetici</option>
+      </select>
+              </div> -->
+            <div class="mb-3">
+              <label class="input-group-text" for="inputGroupSelect01"
+                >Şifre</label
+              >
+              <div class="form-group">
+                <input
+                  type="password"
+                  id="password"
+                  formControlName="password"
+                  class="form-control"
+                  placeholder="Şifre"
+                />
+              </div>
+            </div>
+          </form>
+        </div>
+        <div>
+          <div class="card-footer">
+            <button
+              class="btn btn-fill btn-primary"
+              mwlConfirmationPopover
+              [popoverTitle]="popoverTitle"
+              [popoverMessage]="popoverMessage"
+              placement="left"
+              confirmButtonType="success"
+              [cancelText]="cancelText"
+              [confirmText]="confirmText"
+              (confirm)="updateUser()"
+              (cancel)="cancelClicked = true"
+            >
+              Güncelle
+            </button>
+            <!--  -->
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</html>

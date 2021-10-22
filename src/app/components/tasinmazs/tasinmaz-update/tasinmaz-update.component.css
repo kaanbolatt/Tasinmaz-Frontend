@@ -1,0 +1,44 @@
+@import "~ngx-toastr/toastr.css";
+.btn-danger {
+  margin-left: 423px;
+}
+
+.btn-primary {
+  margin-left: 620px;
+  width: 220px;
+  background-color: rgb(207, 51, 255);
+}
+.nav-link {
+  margin-left: 200px;
+}
+
+html,
+body {
+  background-image: url("https://cdn.discordapp.com/attachments/816181426034180096/899617500185100348/wallpaperTasinmaz.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 931px;
+  font-family: "Numans", sans-serif;
+}
+
+.card {
+  border-radius: 5rem;
+  width: 1500px;
+  margin-left: 200px;
+  margin-top: 90px;
+}
+.title {
+  margin-left: 670px;
+}
+.form-control {
+  width: 15%;
+  margin-left: 620px;
+}
+.input-group-text{
+  width: 220px;
+  margin-left: 620px;
+}
+.form-select{
+  width: 220px;
+  margin-left: 620px;
+}

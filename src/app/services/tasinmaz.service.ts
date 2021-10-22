@@ -19,15 +19,25 @@ export class TasinmazService {
   }
 
   getTasinmazByUser(uID: number): Observable<ListResponseModel<Tasinmaz>> {
-    let newPath = this.apiUrl + "/tasinmaz/getbyuserid?uID=" + uID;
+    let newPath = this.apiUrl + "tasinmaz/getbyuserid?uID=" + uID;
     return this.httpClient.get<ListResponseModel<Tasinmaz>>(newPath);
   }
 
   add(tasinmaz: Tasinmaz): Observable<ResponseModel> {
-    return this.httpClient.post<ResponseModel>(this.apiUrl + "tasinmaz​/tasinmazadd",tasinmaz);
+    return this.httpClient.post<ResponseModel>(
+      this.apiUrl + "Tasinmaz​/add",
+      tasinmaz
+    );
   }
 
   deleteTasinmaz(tID) {
     return this.httpClient.delete(this.apiUrl + "tasinmaz/" + tID);
+  }
+
+  getCurrentData(tID) {
+    return this.httpClient.get(this.apiUrl + "tasinmaz/" + tID);
+  }
+  updateTasinmaz(data: any, tID: number) {
+    return this.httpClient.put(this.apiUrl + "tasinmaz/update/" + tID, data);
   }
 }
