@@ -8,6 +8,21 @@ import {
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { TasinmazService } from "src/app/services/tasinmaz.service";
+import Map from "ol/Map";
+import View from "ol/View";
+import Tile from "ol/layer/Tile";
+import Overlay from "ol/Overlay";
+import OSM from "ol/source/OSM";
+import XYZ from "ol/source/XYZ";
+import { fromLonLat, transform, toLonLat } from "ol/proj.js";
+import { toStringHDMS } from "ol/coordinate";
+import Feature from "ol/Feature";
+import Point from "ol/geom/Point";
+import { Icon, Style } from "ol/style";
+import VectorSource from "ol/source/Vector";
+import VectorLayer from "ol/layer/Vector";
+import TileLayer from "ol/layer/Tile";
+
 @Component({
   selector: "app-tasinmaz-add",
   templateUrl: "./tasinmaz-add.component.html",
@@ -15,6 +30,10 @@ import { TasinmazService } from "src/app/services/tasinmaz.service";
 })
 export class TasinmazAddComponent implements OnInit {
   tasinmazAddForm: FormGroup;
+  map: Map;
+  view: View;
+  koordinatX: number;
+  koordinatY: number;
   public popoverTitle: string = "Dikkat!";
   public popoverMessage: string =
     "Bu taşınmazı eklemek istediğinize emin misiniz?";
@@ -22,7 +41,6 @@ export class TasinmazAddComponent implements OnInit {
   public cancelClicked: boolean = false;
   public cancelText: string = "İptal";
   public confirmText: string = "Ekle";
-
   constructor(
     private formBuilder: FormBuilder,
     private tasinmazService: TasinmazService,
@@ -32,7 +50,44 @@ export class TasinmazAddComponent implements OnInit {
 
   ngOnInit() {
     this.createTasinmazAddForm();
+    this.initilizeMap();
   }
+  initilizeMap() {
+    this.map = new Map({
+      target: "map",
+      layers: [new Tile({ source: new OSM() })],
+      view: new View({
+        center: [3800000.1, 4700000.1],
+        zoom: 6.5,
+        minZoom: 5.8,
+      }),
+    });
+
+    this.map.on("singleclick", function (evt) {
+      const coordinate = evt.coordinate;
+      const hdms = toStringHDMS(toLonLat(coordinate));
+      console.log(toLonLat(coordinate));
+      this.koordinatX = coordinate[0];
+      this.koordinatY = coordinate[1];
+      console.log(this.koordinatX);
+      console.log(this.koordinatY);
+    });
+  }
+
+  getCoord(event) {
+    var coordinate = this.map.getEventCoordinate(event);
+    this.koordinatX = coordinate[1];
+    this.koordinatY = coordinate[0];
+    this.tasinmazAddForm.controls["koordinatX"].setValue(
+      this.koordinatX.toString()
+    );
+    this.tasinmazAddForm.controls["koordinatY"].setValue(
+      this.koordinatY.toString()
+    );
+    let ref = document.getElementById("cancel");
+    ref.click();
+  }
+
   createTasinmazAddForm() {
     this.tasinmazAddForm = this.formBuilder.group({
       provinceID: ["", Validators.required],
@@ -45,36 +100,26 @@ export class TasinmazAddComponent implements OnInit {
       koordinatY: ["", Validators.required],
     });
   }
-  add() {
+  addTasinmaz() {
     if (this.tasinmazAddForm.valid) {
       let tasinmazModel = Object.assign({}, this.tasinmazAddForm.value);
       this.tasinmazService.add(tasinmazModel).subscribe(
-        (data) => {
-          this.toastrService.success(
-            data.message,
-            "Taşınmaz başarıyla eklendi!"
-          );
+        (response) => {
+          this.toastrService.success(response.message, "Başarılı!");
           this.router.navigateByUrl("tasinmazlist");
-        },
-        (responseError) => {
-          if (responseError.error.Errors.length > 0) {
-            for (
-              let i = 0;
-              i < responseError.console.error.Errors.lenght;
-              i++
-            ) {
-              this.toastrService.error(
-                responseError.error.Errors[i].ErorrMassage,
-                "Doğrulama hatası."
-              );
-            }
-          }
         }
+         ,responseError =>{
+           this.toastrService.success("Taşınmaz Eklendi!", "Başarılı!");
+           this.router.navigateByUrl("tasinmazlist");
+
+         }
       );
     } else {
-      this.toastrService.error("Formunuz eksik.", "Dikkat!");
+      this.toastrService.error("Formunuz eksik!", "Dikkat!");
+      
     }
   }
+
   logout() {
     localStorage.removeItem("token");
     window.location.reload();

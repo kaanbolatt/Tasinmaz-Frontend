@@ -7,6 +7,6 @@ uID:number;
 ada:number;
 parsel:number;
 nitelik:string;
-koordinatX:number;
-koordinatY:number;
+koordinatX:string;
+koordinatY:string;
 }

@@ -1,4 +1,10 @@
 <html>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.9.0/css/ol.css"
+    type="text/css"
+  />
+  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.9.0/build/ol.js"></script>
   <title>odakGIS - Taşınmaz List</title>
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="container-fluid">
@@ -7,12 +13,11 @@
           <a class="nav-link active" href="tasinmazlist">Taşınmaz Listesi</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="loglist">Log İşlemleri</a>
+          <a class="nav-link" href="loglist">Log Listesi</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="userlist">Kullanıcı Listesi</a>
         </li>
-
         <li class="d-flex">
           <button type="button" class="btn btn-danger" (click)="logout()">
             Çıkış Yap
@@ -49,8 +54,30 @@
               <th data-field="ada">Ada</th>
               <th data-field="parsel">Parsel</th>
               <th data-field="nitelik">Nitelik</th>
-              <th data-field="koordinatX">Koordinat X</th>
-              <th data-field="update"></th>
+              <th data-field="koordinatXY">Koordinat</th>
+              <th data-field="update">
+                <button
+                  type="button"
+                  class="btn btn-success"
+                  (click)="tasinmazDownload()"
+                >
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="25"
+                    height="25"
+                    fill="currentColor"
+                    class="bi bi-download"
+                    viewBox="0 0 16 16"
+                  >
+                    <path
+                      d="M.5 9.9a.5.5 0 0 1 .5.5v2.5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1v-2.5a.5.5 0 0 1 1 0v2.5a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2v-2.5a.5.5 0 0 1 .5-.5z"
+                    />
+                    <path
+                      d="M7.646 11.854a.5.5 0 0 0 .708 0l3-3a.5.5 0 0 0-.708-.708L8.5 10.293V1.5a.5.5 0 0 0-1 0v8.793L5.354 8.146a.5.5 0 1 0-.708.708l3 3z"
+                    />
+                  </svg>
+                </button>
+              </th>
               <th data-field="delete">
                 <button
                   type="button"
@@ -80,7 +107,7 @@
             *ngFor="
               let tasinmaz of tasinmaz
                 | filter: filterTextTasinmaz
-                | paginate: { itemsPerPage: 10, currentPage: p }
+                | paginate: { itemsPerPage: 5, currentPage: p }
             "
           >
             <td></td>
@@ -92,7 +119,12 @@
             <td>{{ tasinmaz.parsel }}</td>
             <td>{{ tasinmaz.nitelik }}</td>
             <td>
-              <button class="btn btn-light">
+              <button
+                class="btn btn-light"
+                data-toggle="modal"
+                data-target="#gotoCoord"
+                (click)="gotoCoord(tasinmaz.koordinatX,tasinmaz.koordinatY)"
+              >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="20"
@@ -160,21 +192,74 @@
         </table>
       </div>
     </div>
-    
-      <div class="container">
-        <div class="row">
-          <div class="col"></div>
-          <div class="col order-12">
-            <pagination-controls
-              (pageChange)="p = $event"
-              previousLabel="Previous"
-              nextLabel="Next"
-              autoHide="true"
-            ></pagination-controls>
-          </div>
-          <div class="col order-1"></div>
+
+    <div class="container">
+      <div class="row">
+        <div class="col"></div>
+        <div class="col order-12">
+          <pagination-controls
+            (pageChange)="p = $event"
+            previousLabel="Previous"
+            nextLabel="Next"
+            autoHide="true"
+          ></pagination-controls>
         </div>
+        <div class="col order-1"></div>
       </div>
-    
+    </div>
   </body>
+  <script type="text/javascript">
+    var map = new ol.Map({
+      target: "map",
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM(),
+        }),
+      ],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([37.41, 8.82]),
+        zoom: 4,
+      }),
+    });
+  </script>
+  <script>
+    $("#exampleModalCenter").on("shown.bs.modal", function () {
+      loadMap();
+    });
+  </script>
 </html>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="gotoCoord"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="gotoCoordTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div
+      class="modal-content"
+      style="width: 1500px; margin-left: -500px; height: 800px"
+    >
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">
+          Koordinatını görüntülüyorsunuz...
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="display: contents"></div>
+      <div  id="ol-map" class="map-container">
+        <div id="map" class="map"></div>
+      </div>
+    </div>
+  </div>
+</div>

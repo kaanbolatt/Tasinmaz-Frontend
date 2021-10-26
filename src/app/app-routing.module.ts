@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { LogComponent } from './components/log/log.component';
 import { LoginComponent } from './components/login/login.component';
+import { MapComponent } from './components/map/map.component';
 import { TasinmazAddComponent } from './components/tasinmazs/tasinmaz-add/tasinmaz-add.component';
 import { TasinmazUpdateComponent } from './components/tasinmazs/tasinmaz-update/tasinmaz-update.component';
 import { TasinmazComponent } from './components/tasinmazs/tasinmaz/tasinmaz.component';
@@ -18,7 +19,8 @@ const routes: Routes = [
   {path:"", component:LoginComponent},
   {path:"tasinmazupdate/:id", component:TasinmazUpdateComponent, canActivate:[LoginGuard]},
   {path:"userupdate/:id", component:UserUpdateComponent, canActivate:[LoginGuard]},
-  {path:"loglist",pathMatch:"full", component:LogComponent,canActivate:[LoginGuard]}
+  {path:"loglist",pathMatch:"full", component:LogComponent,canActivate:[LoginGuard]},
+  {path:"olmap", pathMatch:"full", component:MapComponent}
 ];
 
 @NgModule({

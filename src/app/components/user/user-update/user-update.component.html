@@ -7,7 +7,7 @@
           <a class="nav-link active" href="useradd">Kullanıcı Güncelle</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="loglist">Log İşlemleri</a>
+          <a class="nav-link" href="loglist">Log Listesi</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="tasinmazlist">Taşınmaz Listesi</a>
@@ -72,9 +72,6 @@
                   class="form-control"
                   placeholder="Mail"
                 />
-                <label class="hata-lbl-kullanici text-danger" *ngIf="editUser.get('email').touched && editUser.get('email').errors?.required">Mail adresinizi boş bırakamazsınız.</label> 
-                <label class="hata-lbl-kullanici text-danger" *ngIf="editUser.get('email').touched && editUser.get('email').errors?.email">Lütfen mail adresinizi düzeltin.</label> 
-                
               </div>
             </div>
             <div class="mb-3">

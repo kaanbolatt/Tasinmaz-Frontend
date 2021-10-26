@@ -1,4 +1,10 @@
 <html>
+  <link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.9.0/css/ol.css"
+    type="text/css"
+  />
+  <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.9.0/build/ol.js"></script>
   <title>odakGIS - Tasinmaz Add</title>
   <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
     <div class="container-fluid">
@@ -7,7 +13,7 @@
           <a class="nav-link active" href="tasinmazadd">Yeni Taşınmaz Ekle</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="loglist">Log İşlemleri</a>
+          <a class="nav-link" href="loglist">Log Listesi</a>
         </li>
         <li class="nav-item">
           <a class="nav-link" href="tasinmazlist">Taşınmaz Listesi</a>
@@ -23,7 +29,6 @@
       </ul>
     </div>
   </nav>
-
   <!-- navi -->
 
   <div class="content">
@@ -32,11 +37,13 @@
         <div class="card-header"><h5 class="title">Taşınmaz Ekle</h5></div>
         <div class="card-body">
           <form [formGroup]="tasinmazAddForm">
-              <div class="mb-3">
-                <label class="input-group-text" for="inputGroupSelect01">İl</label>
-                <div class="form-group">
+            <div class="mb-3">
+              <label class="input-group-text" for="inputGroupSelect01"
+                >İl</label
+              >
+              <div class="form-group">
                 <input
-                  type="text"
+                  type="number"
                   id="provinceID"
                   formControlName="provinceID"
                   class="form-control"
@@ -45,10 +52,12 @@
               </div>
             </div>
             <div class="mb-3">
-              <label class="input-group-text" for="inputGroupSelect01">İlçe</label>
+              <label class="input-group-text" for="inputGroupSelect01"
+                >İlçe</label
+              >
               <div class="form-group">
                 <input
-                  type="text"
+                  type="number"
                   id="countryID"
                   formControlName="countryID"
                   class="form-control"
@@ -57,10 +66,12 @@
               </div>
             </div>
             <div class="mb-3">
-              <label class="input-group-text" for="inputGroupSelect01">Mahalle</label>
+              <label class="input-group-text" for="inputGroupSelect01"
+                >Mahalle</label
+              >
               <div class="form-group">
                 <input
-                  type="text"
+                  type="number"
                   id="nbID"
                   formControlName="nbID"
                   class="form-control"
@@ -69,10 +80,12 @@
               </div>
             </div>
             <div class="mb-3">
-              <label class="input-group-text" for="inputGroupSelect01">Ada</label>
+              <label class="input-group-text" for="inputGroupSelect01"
+                >Ada</label
+              >
               <div class="form-group">
                 <input
-                  type="text"
+                  type="number"
                   id="ada"
                   formControlName="ada"
                   class="form-control"
@@ -81,10 +94,12 @@
               </div>
             </div>
             <div class="mb-3">
-              <label class="input-group-text" for="inputGroupSelect01">Parsel</label>
+              <label class="input-group-text" for="inputGroupSelect01"
+                >Parsel</label
+              >
               <div class="form-group">
                 <input
-                  type="text"
+                  type="number"
                   id="parsel"
                   formControlName="parsel"
                   class="form-control"
@@ -93,7 +108,9 @@
               </div>
             </div>
             <div class="mb-3">
-              <label class="input-group-text" for="inputGroupSelect01">Nitelik</label>
+              <label class="input-group-text" for="inputGroupSelect01"
+                >Nitelik</label
+              >
               <div class="form-group">
                 <input
                   type="text"
@@ -105,42 +122,61 @@
               </div>
             </div>
             <div class="mb-3">
-              <label class="input-group-text" for="inputGroupSelect01">Koordinat X</label>
+              <button
+                class="btn btn-fill btn-primary"
+                type="button"
+                data-toggle="modal"
+                data-target="#exampleModalCenter"
+              >
+                Koordinat Al
+              </button>
+            </div>
+            <div class="mb-3">
+              <label class="input-group-text" for="inputGroupSelect01"
+                >Koordinat X</label
+              >
               <div class="form-group">
                 <input
                   type="text"
                   id="koordinatX"
                   formControlName="koordinatX"
                   class="form-control"
-                  placeholder="koordinatX"
+                  placeholder=""
+                  disabled
                 />
               </div>
             </div>
             <div class="mb-3">
-              <label class="input-group-text" for="inputGroupSelect01">Koordinat Y</label>
+              <label class="input-group-text" for="inputGroupSelect01"
+                >Koordinat Y</label
+              >
               <div class="form-group">
                 <input
                   type="text"
                   id="koordinatY"
                   formControlName="koordinatY"
                   class="form-control"
-                  placeholder="koordinatY"
+                  placeholder=""
+                  disabled
                 />
               </div>
-            </div> 
+            </div>
           </form>
         </div>
         <div>
           <div class="card-footer">
-            <button class="btn btn-fill btn-primary" mwlConfirmationPopover
-            [popoverTitle]="popoverTitle"
-            [popoverMessage]="popoverMessage"
-            placement="left"
-            confirmButtonType="success"
-            [cancelText]="cancelText"
-            [confirmText]="confirmText"
-            (confirm)="add()"
-            (cancel)="cancelClicked =true">
+            <button
+              class="btn btn-fill btn-primary"
+              mwlConfirmationPopover
+              [popoverTitle]="popoverTitle"
+              [popoverMessage]="popoverMessage"
+              placement="left"
+              confirmButtonType="success"
+              [cancelText]="cancelText"
+              [confirmText]="confirmText"
+              (confirm)="addTasinmaz()"
+              (cancel)="cancelClicked = true"
+            >
               Ekle
             </button>
           </div>
@@ -148,4 +184,58 @@
       </div>
     </div>
   </div>
+  <script type="text/javascript">
+    var map = new ol.Map({
+      target: "map",
+      layers: [
+        new ol.layer.Tile({
+          source: new ol.source.OSM(),
+        }),
+      ],
+      view: new ol.View({
+        center: ol.proj.fromLonLat([37.41, 8.82]),
+        zoom: 4,
+      }),
+    });
+  </script>
+  <script>
+    $("#exampleModalCenter").on("shown.bs.modal", function () {
+      loadMap();
+    });
+  </script>
 </html>
+
+<!-- Modal -->
+<div
+  class="modal fade"
+  id="exampleModalCenter"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog" role="document">
+    <div
+      class="modal-content"
+      style="width: 1500px; margin-left: -500px; height: 800px"
+    >
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">
+          Koordinat almak istediğiniz yere tıklayın
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body" style="display: contents"></div>
+      <div (click)="getCoord($event)" id="ol-map" class="map-container">
+        <div id="map" class="map"></div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -8,7 +8,6 @@ import {
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { UsersService } from "src/app/services/users.service";
-
 @Component({
   selector: "app-user-add",
   templateUrl: "./user-add.component.html",

@@ -19,10 +19,10 @@ export class LogService {
   }
 
   deleteLog(logID) {
-    return this.httpClient.delete(this.apiUrl + "log/" + logID);
+    return this.httpClient.delete(this.apiUrl + "logs/" + logID);
   }
 
   getCurrentData(logID) {
-    return this.httpClient.get(this.apiUrl + "log/" + logID);
+    return this.httpClient.get(this.apiUrl + "logs/" + logID);
   }
 }

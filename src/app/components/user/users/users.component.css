@@ -1,5 +1,9 @@
 .btn-danger {
-  margin-left: 768px;
+  margin-left: 760px;
+}
+.table{
+  width: 97%;
+  margin-left: 25px;
 }
 .nav-link {
   margin-left: 200px;

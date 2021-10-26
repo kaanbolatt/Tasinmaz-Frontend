@@ -19,7 +19,8 @@ import { ConfirmationPopoverModule } from "angular-confirmation-popover";
 import { MatDialogModule} from "@angular/material/dialog";
 import { UserUpdateComponent } from './components/user/user-update/user-update.component';
 import { TasinmazUpdateComponent } from './components/tasinmazs/tasinmaz-update/tasinmaz-update.component';
-import { LogComponent } from './components/log/log.component'
+import { LogComponent } from './components/log/log.component';
+import { MapComponent } from './components/map/map.component'
 
 
 @NgModule({
@@ -35,6 +36,7 @@ import { LogComponent } from './components/log/log.component'
     UserUpdateComponent,
     TasinmazUpdateComponent,
     LogComponent,
+    MapComponent,
 
   ],
   imports: [

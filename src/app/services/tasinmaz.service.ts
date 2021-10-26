@@ -23,13 +23,15 @@ export class TasinmazService {
     return this.httpClient.get<ListResponseModel<Tasinmaz>>(newPath);
   }
 
-  add(tasinmaz: Tasinmaz): Observable<ResponseModel> {
-    return this.httpClient.post<ResponseModel>(
-      this.apiUrl + "Tasinmaz​/add",
-      tasinmaz
-    );
+  // add(tasinmaz: Tasinmaz): Observable<ResponseModel> {
+  //   return this.httpClient.post<ResponseModel>(
+  //     this.apiUrl + "tasinmaz/add",
+  //     tasinmaz
+  //   );
+  // }
+  add(tasinmaz: Tasinmaz):Observable<ResponseModel>{
+    return this.httpClient.post<ResponseModel>(this.apiUrl + "tasinmaz/add",tasinmaz);
   }
-
   deleteTasinmaz(tID) {
     return this.httpClient.delete(this.apiUrl + "tasinmaz/" + tID);
   }
