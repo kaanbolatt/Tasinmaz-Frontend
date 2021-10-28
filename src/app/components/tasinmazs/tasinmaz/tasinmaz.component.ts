@@ -55,10 +55,10 @@ export class TasinmazComponent implements OnInit {
     this.getTasinmaz();
     this.initilizeMap();
 
-    this.userService.getUsers().subscribe((response)=>{
-      this.user = response.data
-      console.log(this.user);
-    })
+    // this.userService.getUsers().subscribe((response)=>{
+    //   this.user = response.data
+    //   console.log(this.user);
+    // })
   }
   getTasinmaz() {
     this.tasinmazService.getTasinmaz().subscribe((response) => {

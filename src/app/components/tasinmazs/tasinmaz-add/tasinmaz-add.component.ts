@@ -31,6 +31,7 @@ import { ProvinceService } from "src/app/services/province.service";
 import { CountryService } from "src/app/services/country.service";
 import { NbService } from "src/app/services/nb.service";
 import { UsersService } from "src/app/services/users.service";
+import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 
 @Component({
   selector: "app-tasinmaz-add",
@@ -49,6 +50,7 @@ export class TasinmazAddComponent implements OnInit {
   koordinatX: number;
   koordinatY: number;
   userProfile;
+  userID:number;
   public popoverTitle: string = "Dikkat!";
   public popoverMessage: string =
     "Bu taşınmazı eklemek istediğinize emin misiniz?";
@@ -65,13 +67,17 @@ export class TasinmazAddComponent implements OnInit {
     private countryService: CountryService,
     private nbService: NbService,
     private usersService: UsersService
-  ) {}
-  ngOnInit() {
+    ) {}
+    ngOnInit() {
+    this.initilizeMap();
     this.usersService.getUserProfiler().subscribe(
       res=>{
         this.userProfile = res;
         console.log(this.userProfile);
         console.log(this.userProfile["uID"]);
+        this.userID = this.userProfile["uID"];
+        console.log(this.userID);
+        
         // console.log(res);
         // console.log(res["uID"]);
         // console.log(res["uName"]);
@@ -84,7 +90,6 @@ export class TasinmazAddComponent implements OnInit {
     this.getProvinces();
     this.tasinmazService
     this.createTasinmazAddForm();
-    this.initilizeMap();
   }
   getNb() {
     this.nbService.getNb().subscribe((response) => {
@@ -102,9 +107,7 @@ export class TasinmazAddComponent implements OnInit {
     });
   }
   getTasinmaz() {
-    this.tasinmazService.getTasinmaz().subscribe((response) => {
-      this.tasinmaz = response.data;
-    });
+    
   }
   // scaleControl(){
   //   control = new ScaleLine({units: unitSelect.value});
@@ -116,7 +119,7 @@ export class TasinmazAddComponent implements OnInit {
       target: "map",
       layers: [new Tile({ source: new OSM() })],
       view: new View({
-        center: fromLonLat([37.41, 8.82]),
+        center: [3800000.0, 4700000.0],
         zoom: 6.5,
         minZoom: 5.8,
       }),
@@ -137,7 +140,7 @@ export class TasinmazAddComponent implements OnInit {
        this.tasinmazService
          .getTasinmazByProvinceID(provinceID)
          .subscribe((data) => {
-           console.log("province Change Data: "+data);
+           console.log(data);
            this.tasinmazAddForm.controls.countryID.enable();
           //  this.country = data;
            this.nb = null;
@@ -163,7 +166,7 @@ export class TasinmazAddComponent implements OnInit {
        this.tasinmazService
          .getTasinmazByCountryID(countryID)
          .subscribe((data) => {
-          console.log("countryChange: "+data);
+          console.log(data);
 
            this.tasinmazAddForm.controls.nbID.enable();
           //  this.nb = data;
@@ -193,7 +196,7 @@ export class TasinmazAddComponent implements OnInit {
       countryID: ["", Validators.required],
       nbID: ["", Validators.required],
       ada: ["", Validators.required],
-      uID:[this.userProfile["uID"],Validators.required], //burada patlayacak.  GİRİŞ YAPAN USER ID ÇEK.
+      uID:[""], 
       parsel: ["", Validators.required],
       nitelik: ["", Validators.required],
       koordinatX: ["", Validators.required],
@@ -206,6 +209,7 @@ export class TasinmazAddComponent implements OnInit {
       tasinmazModel["provinceID"]=parseInt(tasinmazModel["provinceID"])
       tasinmazModel["countryID"]=parseInt(tasinmazModel["countryID"])
       tasinmazModel["nbID"]=parseInt(tasinmazModel["nbID"])
+      tasinmazModel["uID"] = this.userID
       this.tasinmazService.add(tasinmazModel).subscribe(
         (response) => {
           this.toastrService.success(response.message, "Başarılı!");

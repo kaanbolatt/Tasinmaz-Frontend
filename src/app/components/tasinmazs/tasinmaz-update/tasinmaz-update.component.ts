@@ -54,6 +54,7 @@ export class TasinmazUpdateComponent implements OnInit {
       .getCurrentData(this.router.snapshot.params.id)
       .subscribe((result) => {
         console.log(result["data"]);
+        
         this.results = result;
         this.editTasinmaz = new FormGroup({
           provinceID: new FormControl(result["data"]["provinceID"]),
@@ -101,6 +102,7 @@ export class TasinmazUpdateComponent implements OnInit {
     this.tasinmazModelObj.nbID = parseInt(this.editTasinmaz.value.nbID);
     this.tasinmazModelObj.ada = this.editTasinmaz.value.ada;
     this.tasinmazModelObj.nitelik = this.editTasinmaz.value.nitelik;
+    this.tasinmazModelObj.parsel = this.editTasinmaz.value.parsel;
     this.tasinmazModelObj.koordinatX = this.editTasinmaz.value.koordinatX;
     this.tasinmazModelObj.koordinatY = this.editTasinmaz.value.koordinatY;
     this.tasinmazService
