@@ -23,12 +23,14 @@ export class TasinmazService {
     return this.httpClient.get<ListResponseModel<Tasinmaz>>(newPath);
   }
 
-  // add(tasinmaz: Tasinmaz): Observable<ResponseModel> {
-  //   return this.httpClient.post<ResponseModel>(
-  //     this.apiUrl + "tasinmaz/add",
-  //     tasinmaz
-  //   );
-  // }
+  getTasinmazByProvinceID(provinceID:number): Observable<ListResponseModel<Tasinmaz>> {
+    return this.httpClient.get<ListResponseModel<Tasinmaz>>(this.apiUrl + "tasinmaz/province/" +provinceID)
+  }
+  getTasinmazByCountryID(countryID:number): Observable<ListResponseModel<Tasinmaz>>{
+    return this.httpClient.get<ListResponseModel<Tasinmaz>>(this.apiUrl+"tasinmaz/country/" +countryID)
+  }
+
+
   add(tasinmaz: Tasinmaz):Observable<ResponseModel>{
     return this.httpClient.post<ResponseModel>(this.apiUrl + "tasinmaz/add",tasinmaz);
   }

@@ -30,7 +30,7 @@
         type="text"
         [(ngModel)]="filterTextLog"
         class="form-control"
-        id="filterTextTasinmaz"
+        id="filterTextLog"
         placeholder="Arama ifadesi giriniz."
       />
     </div>
@@ -78,7 +78,7 @@
             *ngFor="
               let log of logs
                 | filter: filterTextLog
-                | paginate: { itemsPerPage: 10, currentPage: p }
+                | paginate: { itemsPerPage: 7, currentPage: p }
             "
           >
             <td></td>
@@ -128,12 +128,13 @@
       <div class="row">
         <div class="col"></div>
         <div class="col order-12">
+          <div class="card" style= "width: 300px; margin-left: 0px; height: auto;">
           <pagination-controls
             (pageChange)="p = $event"
-            previousLabel="Previous"
-            nextLabel="Next"
-            autoHide="true"
+            previousLabel="Geri"
+            nextLabel="İleri"
           ></pagination-controls>
+        </div>
         </div>
         <div class="col order-1"></div>
       </div>

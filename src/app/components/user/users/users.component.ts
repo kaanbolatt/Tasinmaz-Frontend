@@ -2,6 +2,7 @@ import { Component, OnInit, TemplateRef } from "@angular/core";
 import { User } from "src/app/models/user";
 import { UsersService } from "src/app/services/users.service";
 import { Router, RouterModule } from "@angular/router";
+import{Rol} from "src/app/models/rol"
 
 
 
@@ -13,7 +14,7 @@ import { Router, RouterModule } from "@angular/router";
 })
 export class UsersComponent implements OnInit {
   users: User[] = [];
-
+  rols:Rol[] = [];
   searchText = "";
   currentUser: User;
   p: number = 1;
@@ -30,12 +31,26 @@ export class UsersComponent implements OnInit {
 
   ngOnInit() {
     this.getUsers();
+    this.getRols();
+    this.usersService.getUserProfiler().subscribe(
+      res=>{
+        console.log(res);
+        console.log(res["uID"]);
+        console.log(res["uName"]);
+        console.log(res["uRol"]);
+      }
+    );
   }
 
   getUsers() {
     this.usersService.getUsers().subscribe((response) => {
       this.users = response.data;
     });
+  }
+  getRols(){
+    this.usersService.getRols().subscribe((response) =>{
+      this.rols = response.data;
+    })
   }
 
   setCurrentUsers(user: User) {

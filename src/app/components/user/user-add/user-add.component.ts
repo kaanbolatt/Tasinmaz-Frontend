@@ -40,12 +40,15 @@ export class UserAddComponent implements OnInit {
       uAdress: ["", Validators.required],
       uMail: ["", [Validators.email, Validators.required]],
       password: ["", Validators.required],
+      uRol: ["",Validators.required]
     });
   }
 
   add() {
     if (this.userAddForm.valid) {
+      this.userAddForm.value.uRol=parseInt(this.userAddForm.value.uRol)
       let userModel = Object.assign({}, this.userAddForm.value);
+      console.log(this.userAddForm.value);
       this.userService.add(userModel).subscribe(
         (data) => {
           this.toastrService.success(

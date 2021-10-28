@@ -29,21 +29,33 @@
   <div class="content">
     <div class="col-md-1">
       <div class="card">
-        <div class="card-header"><h5 class="title">Taşınmaz Güncelle</h5></div>
+        <div class="card-header"><h5 class="title">Taşınmaz Ekle</h5></div>
         <div class="card-body">
           <form [formGroup]="editTasinmaz">
-            <div class="form-group">
-              <div class="mb-3">
-                <label class="input-group-text" for="inputGroupSelect01"
-                  >İl</label
-                >
-                <input
-                  type="number"
+            <div class="mb-3">
+              <label class="input-group-text" for="inputGroupSelect01"
+                >İl</label
+              >
+
+              <div class="form-group">
+                <select
+                  class="form-control"
                   id="provinceID"
                   formControlName="provinceID"
-                  class="form-control"
-                  placeholder="İl"
-                />
+                  style="padding-top: 1px"
+                  required
+                  aria-label
+                  (change)="onChange($event.target.value)"
+                  >
+                  <!-- burada bir şeyler değişecek -->
+                  <option
+                    type="number"
+                    *ngFor="let provinces of provinces"
+                    [value]="provinces.provinceID"
+                  >
+                    {{ provinces.provinceName }}
+                  </option>
+                </select>
               </div>
             </div>
             <div class="mb-3">
@@ -51,13 +63,24 @@
                 >İlçe</label
               >
               <div class="form-group">
-                <input
-                  type="number"
+                <select
+                  class="form-control"
                   id="countryID"
                   formControlName="countryID"
-                  class="form-control"
-                  placeholder="İlçe"
-                />
+                  style="padding-top: 1px"
+                  required
+                  aria-label
+                  
+
+                >
+                <!-- (change)="countryChange($event.target.value)" -->
+                  <option
+                    *ngFor="let country of country"
+                    [value]="country.countryID"
+                  >
+                    {{ country.countryName }}
+                  </option>
+                </select>
               </div>
             </div>
             <div class="mb-3">
@@ -65,13 +88,18 @@
                 >Mahalle</label
               >
               <div class="form-group">
-                <input
-                  type="number"
+                <select
+                  class="form-control"
                   id="nbID"
                   formControlName="nbID"
-                  class="form-control"
-                  placeholder="Mahalle"
-                />
+                  style="padding-top: 1px"
+                  required
+                  aria-label
+                >
+                  <option *ngFor="let nb of nb" [value]="nb.nbID">
+                    {{ nb.nbName }}
+                  </option>
+                </select>
               </div>
             </div>
             <div class="mb-3">
@@ -116,36 +144,7 @@
                 />
               </div>
             </div>
-            <div class="mb-3">
-              <label class="input-group-text" for="inputGroupSelect01"
-                >Koordinat X</label
-              >
-              <div class="form-group">
-                <input
-                  type="number"
-                  id="koordinatX"
-                  formControlName="koordinatX"
-                  class="form-control"
-                  placeholder=""
-                  disabled
-                />
-              </div>
-            </div>
-            <div class="mb-3">
-              <label class="input-group-text" for="inputGroupSelect01"
-                >Koordinat Y</label
-              >
-              <div class="form-group">
-                <input
-                  type="number"
-                  id="koordinatY"
-                  formControlName="koordinatY"
-                  class="form-control"
-                  placeholder=""
-                  disabled
-                />
-              </div>
-            </div>
+            
           </form>
         </div>
         <div>
@@ -164,10 +163,10 @@
             >
               Güncelle
             </button>
-            <!--  -->
           </div>
         </div>
       </div>
     </div>
   </div>
+        
 </html>

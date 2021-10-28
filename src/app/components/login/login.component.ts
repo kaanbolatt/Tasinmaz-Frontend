@@ -25,6 +25,7 @@ export class LoginComponent implements OnInit {
   ) {}
   go() {
     this.router.navigateByUrl("tasinmazlist");
+    
   }
   ngOnInit(): void {
     this.createLoginForm();

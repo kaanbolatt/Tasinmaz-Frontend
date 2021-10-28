@@ -7,4 +7,5 @@ export interface User{
     Status:boolean;
     uPasswordHash:any;
     uPasswordSalt:any;
+    uRol:number
 }

@@ -5,4 +5,5 @@ export class userUpdateModel{
     uMail:string='';
     uAdress:string='';
     password:string='';
+    uRol:number;
 }

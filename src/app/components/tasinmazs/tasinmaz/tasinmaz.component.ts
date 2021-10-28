@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { Tasinmaz } from "src/app/models/tasinmaz";
 import { TasinmazService } from "src/app/services/tasinmaz.service";
+import { UsersService } from "src/app/services/users.service";
 import * as XLSX from "xlsx";
 import Map from "ol/Map";
 import View from "ol/View";
@@ -17,6 +18,9 @@ import { Icon, Style } from "ol/style";
 import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import TileLayer from "ol/layer/Tile";
+import Control from "ol/control/Control";
+import CanvasScaleLine from "ol/control/ScaleLine"
+import { User } from "src/app/models/user";
 
 @Component({
   selector: "app-tasinmaz",
@@ -24,6 +28,7 @@ import TileLayer from "ol/layer/Tile";
   styleUrls: ["./tasinmaz.component.css"],
 })
 export class TasinmazComponent implements OnInit {
+  user;
   tasinmaz: Tasinmaz[] = [];
   currentTasinmaz: Tasinmaz;
   filterTextTasinmaz = "";
@@ -41,13 +46,19 @@ export class TasinmazComponent implements OnInit {
   constructor(
     private tasinmazService: TasinmazService,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
+    private userService: UsersService
   ) {}
 
   results: any;
   ngOnInit() {
     this.getTasinmaz();
     this.initilizeMap();
+
+    this.userService.getUsers().subscribe((response)=>{
+      this.user = response.data
+      console.log(this.user);
+    })
   }
   getTasinmaz() {
     this.tasinmazService.getTasinmaz().subscribe((response) => {
@@ -65,15 +76,16 @@ export class TasinmazComponent implements OnInit {
       }),
     });
   }
-  gotoCoord(koordinatX,koordinatY) {
-    console.log("X koordinatı: " +koordinatX+ " Y koordinatı: " +koordinatY);
-
-     this.map.setView(new View({
-       center: [koordinatY,koordinatX],
-       zoom:15
-     }))
+  gotoCoord(koordinatX, koordinatY) {
+    console.log("X koordinatı: " + koordinatX + " Y koordinatı: " + koordinatY);
+    this.map.setView(
+      new View({
+        center: [koordinatY, koordinatX],
+        zoom: 17,
+      })
+    );
   }
-  
+
   setCurrentTasinmaz(tasinmaz: Tasinmaz) {
     this.currentTasinmaz = tasinmaz;
   }

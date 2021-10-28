@@ -1,8 +1,9 @@
 <html>
+  
   <link
-    rel="stylesheet"
-    href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.9.0/css/ol.css"
-    type="text/css"
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.9.0/css/ol.css"
+  type="text/css"
   />
   <script src="https://cdn.jsdelivr.net/gh/openlayers/openlayers.github.io@master/en/v6.9.0/build/ol.js"></script>
   <title>odakGIS - Taşınmaz List</title>
@@ -10,7 +11,8 @@
     <div class="container-fluid">
       <ul class="navbar-nav">
         <li class="nav-item">
-          <a class="nav-link active" href="tasinmazlist">Taşınmaz Listesi</a>
+          <a class="nav-link active"  href="tasinmazlist" >Taşınmaz Listesi</a>
+          <!-- *ngIf="user.uRol==1" -->
         </li>
         <li class="nav-item">
           <a class="nav-link" href="loglist">Log Listesi</a>
@@ -107,7 +109,7 @@
             *ngFor="
               let tasinmaz of tasinmaz
                 | filter: filterTextTasinmaz
-                | paginate: { itemsPerPage: 5, currentPage: p }
+                | paginate: { itemsPerPage: 7, currentPage: p }
             "
           >
             <td></td>
@@ -197,12 +199,14 @@
       <div class="row">
         <div class="col"></div>
         <div class="col order-12">
+          <div class="card" style= "width: 300px; margin-left: 0px; height: auto;">
+
           <pagination-controls
             (pageChange)="p = $event"
-            previousLabel="Previous"
-            nextLabel="Next"
-            autoHide="true"
+            previousLabel="Geri"
+            nextLabel="İleri"
           ></pagination-controls>
+          </div>
         </div>
         <div class="col order-1"></div>
       </div>

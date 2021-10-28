@@ -46,6 +46,7 @@
               <th data-field="uSurname">User Surname</th>
               <th data-field="uMail">User Mail</th>
               <th data-field="uAdress">User Adress</th>
+              <th data-field="uRol">User Role</th>
               <th data-field="update"></th>
               <th data-field="delete">
                 <button
@@ -86,6 +87,8 @@
             <td>{{ user.uSurname }}</td>
             <td>{{ user.uMail }}</td>
             <td>{{ user.uAdress }}</td>
+            <td *ngIf="user.uRol == 1">Admin</td>
+            <td *ngIf="user.uRol == 4">User</td>
             <td>
               <button class="btn btn-light">
                 <a routerLink="/userupdate/{{ user.uID }}">
@@ -142,12 +145,13 @@
       <div class="row">
         <div class="col"></div>
         <div class="col order-12">
+          <div class="card" style= "width: 300px; margin-left: 0px; height: auto;">
           <pagination-controls
             (pageChange)="p = $event"
-            previousLabel="Previous"
-            nextLabel="Next"
-            autoHide="true"
+            previousLabel="Geri"
+            nextLabel="İleri"
           ></pagination-controls>
+            </div>
         </div>
         <div class="col order-1"></div>
       </div>

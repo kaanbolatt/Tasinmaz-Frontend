@@ -41,14 +41,26 @@
               <label class="input-group-text" for="inputGroupSelect01"
                 >İl</label
               >
+
               <div class="form-group">
-                <input
-                  type="number"
+                <select
+                  class="form-control"
                   id="provinceID"
                   formControlName="provinceID"
-                  class="form-control"
-                  placeholder="İl"
-                />
+                  style="padding-top: 1px"
+                  required
+                  aria-label
+                  (change)="onChange($event.target.value)"
+                  >
+                  <!-- burada bir şeyler değişecek -->
+                  <option
+                    type="number"
+                    *ngFor="let provinces of provinces"
+                    [value]="provinces.provinceID"
+                  >
+                    {{ provinces.provinceName }}
+                  </option>
+                </select>
               </div>
             </div>
             <div class="mb-3">
@@ -56,27 +68,43 @@
                 >İlçe</label
               >
               <div class="form-group">
-                <input
-                  type="number"
+                <select
+                  class="form-control"
                   id="countryID"
                   formControlName="countryID"
-                  class="form-control"
-                  placeholder="İlçe"
-                />
+                  style="padding-top: 1px"
+                  required
+                  aria-label
+                  (change)="countryChange($event.target.value)"
+
+                >
+                  <option
+                    [selected]="provinces.provinceID == country.provinceID"
+                    *ngFor="let country of country"
+                    [value]="country.countryID"
+                  >
+                    {{ country.countryName }}
+                  </option>
+                </select>
               </div>
             </div>
             <div class="mb-3">
               <label class="input-group-text" for="inputGroupSelect01"
                 >Mahalle</label
               >
-              <div class="form-group">
-                <input
-                  type="number"
+              <div class="form-group" >
+                <select
+                  class="form-control"
                   id="nbID"
                   formControlName="nbID"
-                  class="form-control"
-                  placeholder="Mahalle"
-                />
+                  style="padding-top: 1px"
+                  required
+                  aria-label
+                >
+                  <option *ngFor="let nb of nb"  [value]="nb.nbID">
+                    {{ nb.nbName }}
+                  </option>
+                </select>
               </div>
             </div>
             <div class="mb-3">
@@ -131,7 +159,7 @@
                 Koordinat Al
               </button>
             </div>
-            <div class="mb-3">
+            <!-- <div class="mb-3">
               <label class="input-group-text" for="inputGroupSelect01"
                 >Koordinat X</label
               >
@@ -160,7 +188,7 @@
                   disabled
                 />
               </div>
-            </div>
+            </div> -->
           </form>
         </div>
         <div>
@@ -230,8 +258,9 @@
           aria-label="Close"
         >
           <span aria-hidden="true">&times;</span>
-        </button>
+        </button> 
       </div>
+      
       <div class="modal-body" style="display: contents"></div>
       <div (click)="getCoord($event)" id="ol-map" class="map-container">
         <div id="map" class="map"></div>

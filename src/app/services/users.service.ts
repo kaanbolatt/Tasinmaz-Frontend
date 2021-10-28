@@ -3,6 +3,7 @@ import { Injectable } from "@angular/core";
 import { map, Observable } from "rxjs";
 import { ListResponseModel } from "../models/listResponseModel";
 import { ResponseModel } from "../models/responseModel";
+import { Rol } from "../models/rol";
 import { User } from "../models/user";
 
 @Injectable({
@@ -10,13 +11,15 @@ import { User } from "../models/user";
 })
 export class UsersService {
   apiUrl = "https://localhost:44347/api/";
-
   constructor(private httpClient: HttpClient) {}
 
   getUsers(): Observable<ListResponseModel<User>> {
     return this.httpClient.get<ListResponseModel<User>>(
       this.apiUrl + "users/getall"
     );
+  }
+  getRols():Observable<ListResponseModel<Rol>>{
+    return this.httpClient.get<ListResponseModel<Rol>>(this.apiUrl+"rol/getall");
   }
 
   add(user: User): Observable<ResponseModel> {
@@ -35,4 +38,9 @@ export class UsersService {
   updateUser(data: any, uID: number) {
     return this.httpClient.put(this.apiUrl + "users/update/" + uID, data);
   }
+
+  getUserProfiler() {
+    return this.httpClient.get(this.apiUrl + "GetUser/"); 
+  }
 }
+  

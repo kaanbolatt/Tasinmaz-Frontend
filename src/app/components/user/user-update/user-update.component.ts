@@ -3,6 +3,7 @@ import { FormControl, FormGroup, NgForm } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UsersService } from "src/app/services/users.service";
 import { userUpdateModel } from "src/app/models/userUpdateModel";
+import { User } from "src/app/models/user";
 
 @Component({
   selector: "app-user-update",
@@ -12,6 +13,7 @@ import { userUpdateModel } from "src/app/models/userUpdateModel";
 export class UserUpdateComponent implements OnInit {
   userModelObj: userUpdateModel = new userUpdateModel();
   submitted = false;
+  user:User[] = [];
 
   editUser = new FormGroup({
     uName: new FormControl(""),
@@ -19,6 +21,7 @@ export class UserUpdateComponent implements OnInit {
     uMail: new FormControl(""),
     uAdress: new FormControl(""),
     password: new FormControl(""),
+    uRol: new FormControl(""),
   });
   public popoverTitle: string = "Dikkat!";
   public popoverMessage: string =
@@ -47,7 +50,9 @@ export class UserUpdateComponent implements OnInit {
           uMail: new FormControl(result["data"]["0"]["uMail"]),
           uAdress: new FormControl(result["data"]["0"]["uAdress"]),
           password: new FormControl(""),
+          uRol: new FormControl(result["data"]["0"]["uRol"]),
         });
+        console.log(this.editUser);
       });
   }
   updateUser() {
@@ -57,6 +62,7 @@ export class UserUpdateComponent implements OnInit {
     this.userModelObj.uMail = this.editUser.value.uMail;
     this.userModelObj.uAdress = this.editUser.value.uAdress;
     this.userModelObj.password = this.editUser.value.password;
+    this.userModelObj.uRol = parseInt(this.editUser.value.uRol);
     console.log(this.userModelObj);
     this.userService
       .updateUser(this.userModelObj, this.userModelObj.uID)
