@@ -1,8 +1,8 @@
 @import "~ngx-toastr/toastr.css";
 .btn-danger {
-  margin-left: 412px;
+  margin-left: 392px;
+  position: absolute !important;
 }
-
 .btn-primary {
   margin-left: 620px;
   width: 220px;
@@ -20,7 +20,11 @@ body {
   height: 931px;
   font-family: "Numans", sans-serif;
 }
-
+.hata-lbl-kullanici {
+  position: absolute !important;
+  left: 15%;
+  font-size: 80%;
+}
 .card {
   border-radius: 5px;
   width: 1500px;
@@ -34,11 +38,11 @@ body {
   width: 15%;
   margin-left: 620px;
 }
-.input-group-text{
+.input-group-text {
   width: 220px;
   margin-left: 620px;
 }
-.form-select{
+.form-select {
   width: 220px;
   margin-left: 620px;
 }

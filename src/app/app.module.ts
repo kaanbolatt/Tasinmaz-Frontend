@@ -16,12 +16,12 @@ import { TasinmazAddComponent } from "./components/tasinmazs/tasinmaz-add/tasinm
 import { Ng2SearchPipeModule } from "ng2-search-filter";
 import { NgxPaginationModule } from "ngx-pagination";
 import { ConfirmationPopoverModule } from "angular-confirmation-popover";
-import { MatDialogModule} from "@angular/material/dialog";
-import { UserUpdateComponent } from './components/user/user-update/user-update.component';
-import { TasinmazUpdateComponent } from './components/tasinmazs/tasinmaz-update/tasinmaz-update.component';
-import { LogComponent } from './components/log/log.component';
-import { MapComponent } from './components/map/map.component'
-
+import { MatDialogModule } from "@angular/material/dialog";
+import { UserUpdateComponent } from "./components/user/user-update/user-update.component";
+import { TasinmazUpdateComponent } from "./components/tasinmazs/tasinmaz-update/tasinmaz-update.component";
+import { LogComponent } from "./components/log/log.component";
+import { MapComponent } from "./components/map/map.component";
+import { Ng2OrderModule } from "ng2-order-pipe";
 
 @NgModule({
   declarations: [
@@ -37,7 +37,6 @@ import { MapComponent } from './components/map/map.component'
     TasinmazUpdateComponent,
     LogComponent,
     MapComponent,
-
   ],
   imports: [
     BrowserModule,
@@ -50,15 +49,14 @@ import { MapComponent } from './components/map/map.component'
     }),
     Ng2SearchPipeModule,
     NgxPaginationModule,
-    ConfirmationPopoverModule.forRoot({confirmButtonType:'danger'}),
-    MatDialogModule
-
-
+    ConfirmationPopoverModule.forRoot({ confirmButtonType: "danger" }),
+    MatDialogModule,
+    Ng2OrderModule,
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
   ],
-  bootstrap: [AppComponent,UsersComponent,TasinmazComponent],
-  entryComponents:[TasinmazComponent]
+  bootstrap: [AppComponent, UsersComponent, TasinmazComponent],
+  entryComponents: [TasinmazComponent],
 })
 export class AppModule {}

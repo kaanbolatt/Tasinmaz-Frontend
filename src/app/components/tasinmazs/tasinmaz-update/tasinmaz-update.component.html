@@ -29,7 +29,7 @@
   <div class="content">
     <div class="col-md-1">
       <div class="card">
-        <div class="card-header"><h5 class="title">Taşınmaz Ekle</h5></div>
+        <div class="card-header"><h5 class="title">Taşınmaz Güncelle</h5></div>
         <div class="card-body">
           <form [formGroup]="editTasinmaz">
             <div class="mb-3">
@@ -46,7 +46,7 @@
                   required
                   aria-label
                   (change)="onChange($event.target.value)"
-                  >
+                >
                   <!-- burada bir şeyler değişecek -->
                   <option
                     type="number"
@@ -70,10 +70,10 @@
                   style="padding-top: 1px"
                   required
                   aria-label
-                  
-
+                  disabled
+                  (change)="countryChange($event.target.value)"
                 >
-                <!-- (change)="countryChange($event.target.value)" -->
+                  <!-- (change)="countryChange($event.target.value)" -->
                   <option
                     *ngFor="let country of country"
                     [value]="country.countryID"
@@ -95,6 +95,7 @@
                   style="padding-top: 1px"
                   required
                   aria-label
+                  disabled
                 >
                   <option *ngFor="let nb of nb" [value]="nb.nbID">
                     {{ nb.nbName }}
@@ -144,7 +145,6 @@
                 />
               </div>
             </div>
-            
           </form>
         </div>
         <div>
@@ -168,5 +168,4 @@
       </div>
     </div>
   </div>
-        
 </html>

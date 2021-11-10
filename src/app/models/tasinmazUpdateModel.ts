@@ -1,5 +1,5 @@
 export class tasinmazUpdateModel {
-  tID: number = 0;
+  Id: number = 0;
   provinceID: number = 0;
   countryID: number = 0;
   nbID: number = 0;

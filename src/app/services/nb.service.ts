@@ -17,5 +17,10 @@ export class NbService {
     let newPath = this.apiUrl + "nb/getall";
     return this.httpClient.get<ListResponseModel<Neighbourhood>>(newPath);
   }
+  getNbByCId(countryID):
+  Observable<ListResponseModel<Neighbourhood>>{
+    let newPath = this.apiUrl + "nb/getbycountryid?id=" + countryID
+    return this.httpClient.get<ListResponseModel<Neighbourhood>>(newPath)
+  }
 
   }

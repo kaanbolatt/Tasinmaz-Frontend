@@ -13,13 +13,26 @@
           <a class="nav-link active" href="tasinmazadd">Yeni Taşınmaz Ekle</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="loglist">Log Listesi</a>
+          <a class="nav-link" *ngIf="userRol == 1" href="loglist"
+            >Log Listesi</a
+          >
         </li>
         <li class="nav-item">
           <a class="nav-link" href="tasinmazlist">Taşınmaz Listesi</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="userlist">Kullanıcı Listesi</a>
+          <a class="nav-link" *ngIf="userRol == 1" href="userlist"
+            >Kullanıcı Listesi</a
+          >
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="userRol == 4" href="userlist"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="userRol == 4" href="userlist"></a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" *ngIf="userRol == 4" href="userlist"></a>
         </li>
         <li class="d-flex">
           <button type="button" class="btn btn-danger" (click)="logout()">
@@ -51,7 +64,7 @@
                   required
                   aria-label
                   (change)="onChange($event.target.value)"
-                  >
+                >
                   <!-- burada bir şeyler değişecek -->
                   <option
                     type="number"
@@ -61,6 +74,16 @@
                     {{ provinces.provinceName }}
                   </option>
                 </select>
+                <label
+                  class="alert alert-danger"
+                  style="margin-left: 625px"
+                  role="alert"
+                  *ngIf="
+                    tasinmazAddForm.get('provinceID').touched &&
+                    tasinmazAddForm.get('provinceID').invalid
+                  "
+                  >{{ tasinmazService.boslukKontrol }}</label
+                >
               </div>
             </div>
             <div class="mb-3">
@@ -75,8 +98,8 @@
                   style="padding-top: 1px"
                   required
                   aria-label
+                  disabled
                   (change)="countryChange($event.target.value)"
-
                 >
                   <option
                     [selected]="provinces.provinceID == country.provinceID"
@@ -86,25 +109,46 @@
                     {{ country.countryName }}
                   </option>
                 </select>
+                <label
+                  class="alert alert-danger"
+                  style="margin-left: 625px"
+                  role="alert"
+                  *ngIf="
+                    tasinmazAddForm.get('countryID').touched &&
+                    tasinmazAddForm.get('countryID').invalid
+                  "
+                  >{{ tasinmazService.boslukKontrol }}</label
+                >
               </div>
             </div>
             <div class="mb-3">
               <label class="input-group-text" for="inputGroupSelect01"
                 >Mahalle</label
               >
-              <div class="form-group" >
+              <div class="form-group">
                 <select
                   class="form-control"
                   id="nbID"
                   formControlName="nbID"
                   style="padding-top: 1px"
                   required
+                  disabled
                   aria-label
                 >
-                  <option *ngFor="let nb of nb"  [value]="nb.nbID">
+                  <option *ngFor="let nb of nb" [value]="nb.nbID">
                     {{ nb.nbName }}
                   </option>
                 </select>
+                <label
+                  class="alert alert-danger"
+                  style="margin-left: 625px"
+                  role="alert"
+                  *ngIf="
+                    tasinmazAddForm.get('nbID').touched &&
+                    tasinmazAddForm.get('nbID').invalid
+                  "
+                  >{{ tasinmazService.boslukKontrol }}</label
+                >
               </div>
             </div>
             <div class="mb-3">
@@ -119,6 +163,16 @@
                   class="form-control"
                   placeholder="Ada"
                 />
+                <label
+                  class="alert alert-danger"
+                  style="margin-left: 625px"
+                  role="alert"
+                  *ngIf="
+                    tasinmazAddForm.get('ada').touched &&
+                    tasinmazAddForm.get('ada').invalid
+                  "
+                  >{{ tasinmazService.boslukKontrol }}</label
+                >
               </div>
             </div>
             <div class="mb-3">
@@ -133,6 +187,16 @@
                   class="form-control"
                   placeholder="Parsel"
                 />
+                <label
+                  class="alert alert-danger"
+                  style="margin-left: 625px"
+                  role="alert"
+                  *ngIf="
+                    tasinmazAddForm.get('parsel').touched &&
+                    tasinmazAddForm.get('parsel').invalid
+                  "
+                  >{{ tasinmazService.boslukKontrol }}</label
+                >
               </div>
             </div>
             <div class="mb-3">
@@ -147,6 +211,16 @@
                   class="form-control"
                   placeholder="Nitelik"
                 />
+                <label
+                  class="alert alert-danger"
+                  style="margin-left: 625px"
+                  role="alert"
+                  *ngIf="
+                    tasinmazAddForm.get('nitelik').touched &&
+                    tasinmazAddForm.get('nitelik').invalid
+                  "
+                  >{{ tasinmazService.boslukKontrol }}</label
+                >
               </div>
             </div>
             <div class="mb-3">
@@ -159,7 +233,7 @@
                 Koordinat Al
               </button>
             </div>
-            <!-- <div class="mb-3">
+            <div class="mb-3">
               <label class="input-group-text" for="inputGroupSelect01"
                 >Koordinat X</label
               >
@@ -188,7 +262,7 @@
                   disabled
                 />
               </div>
-            </div> -->
+            </div>
           </form>
         </div>
         <div>
@@ -204,6 +278,8 @@
               [confirmText]="confirmText"
               (confirm)="addTasinmaz()"
               (cancel)="cancelClicked = true"
+              #ChatPopover
+              [disabled]="tasinmazAddForm.invalid"
             >
               Ekle
             </button>
@@ -256,11 +332,13 @@
           class="close"
           data-dismiss="modal"
           aria-label="Close"
+          id="closeModalButton"
+          #closeModal
         >
           <span aria-hidden="true">&times;</span>
-        </button> 
+        </button>
       </div>
-      
+
       <div class="modal-body" style="display: contents"></div>
       <div (click)="getCoord($event)" id="ol-map" class="map-container">
         <div id="map" class="map"></div>

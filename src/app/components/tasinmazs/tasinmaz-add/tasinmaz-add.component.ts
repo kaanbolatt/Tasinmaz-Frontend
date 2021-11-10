@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import {
   FormGroup,
   FormBuilder,
@@ -22,7 +22,7 @@ import { Icon, Style } from "ol/style";
 import VectorSource from "ol/source/Vector";
 import VectorLayer from "ol/layer/Vector";
 import TileLayer from "ol/layer/Tile";
-import {ScaleLine, defaults as defaultControls, Control} from 'ol/control';
+import { ScaleLine, defaults as defaultControls, Control } from "ol/control";
 import { Tasinmaz } from "src/app/models/tasinmaz";
 import { Province } from "src/app/models/province";
 import { Neighbourhood } from "src/app/models/nb";
@@ -32,6 +32,7 @@ import { CountryService } from "src/app/services/country.service";
 import { NbService } from "src/app/services/nb.service";
 import { UsersService } from "src/app/services/users.service";
 import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
+import ControlScaleLine from "ol/control/ScaleLine";
 
 @Component({
   selector: "app-tasinmaz-add",
@@ -39,18 +40,24 @@ import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
   styleUrls: ["./tasinmaz-add.component.css"],
 })
 export class TasinmazAddComponent implements OnInit {
-  country: Country[] = [];
+  country: {};
   tasinmaz: Tasinmaz[] = [];
   provinces: Province[] = [];
   nb: Neighbourhood[] = [];
-  
+  @ViewChild("closeModal") closeModal: ElementRef;
+  control: ControlScaleLine;
   tasinmazAddForm: FormGroup;
   map: Map;
   view: View;
   koordinatX: number;
   koordinatY: number;
   userProfile;
-  userID:number;
+  userID: number;
+
+  scaleType = "scaleline";
+  scaleBarSteps = 4;
+  scaleBarText = true;
+  userRol;
   public popoverTitle: string = "Dikkat!";
   public popoverMessage: string =
     "Bu taşınmazı eklemek istediğinize emin misiniz?";
@@ -66,49 +73,49 @@ export class TasinmazAddComponent implements OnInit {
     private provinceService: ProvinceService,
     private countryService: CountryService,
     private nbService: NbService,
-    private usersService: UsersService
-    ) {}
-    ngOnInit() {
+    private usersService: UsersService,
+    private elementRef: ElementRef
+  ) {}
+  ngOnInit() {
     this.initilizeMap();
-    this.usersService.getUserProfiler().subscribe(
-      res=>{
-        this.userProfile = res;
-        console.log(this.userProfile);
-        console.log(this.userProfile["uID"]);
-        this.userID = this.userProfile["uID"];
-        console.log(this.userID);
-        
-        // console.log(res);
-        // console.log(res["uID"]);
-        // console.log(res["uName"]);
-        // console.log(res["uRol"]);
-      }
-    );
+
+    this.usersService.getUserProfiler().subscribe((res: any) => {
+      // console.log(res);
+      // console.log(res.id);
+      // console.log(res.name);
+      console.log(res.rol);
+      this.userID = res.id;
+      // console.log(this.userID);
+      this.userRol = res.rol;
+    });
+
     this.getTasinmaz();
     this.getNb();
     this.getCountry();
     this.getProvinces();
-    this.tasinmazService
+    this.tasinmazService;
     this.createTasinmazAddForm();
   }
   getNb() {
     this.nbService.getNb().subscribe((response) => {
+      console.log(response.data);
       this.nb = response.data;
     });
   }
   getCountry() {
     this.countryService.getCountry().subscribe((response) => {
+      console.log(response.data);
       this.country = response.data;
     });
   }
   getProvinces() {
     this.provinceService.getProvince().subscribe((response) => {
+      console.log(response.data);
+
       this.provinces = response.data;
     });
   }
-  getTasinmaz() {
-    
-  }
+  getTasinmaz() {}
   // scaleControl(){
   //   control = new ScaleLine({units: unitSelect.value});
   //   return Control;
@@ -124,70 +131,60 @@ export class TasinmazAddComponent implements OnInit {
         minZoom: 5.8,
       }),
     });
-     
-    this.map.on("singleclick", function (evt) {
-      const coordinate = evt.coordinate;
-      const hdms = toStringHDMS(toLonLat(coordinate));
-      console.log(toLonLat(coordinate));
-      this.koordinatX = coordinate[0];
-      this.koordinatY = coordinate[1];
-      console.log(this.koordinatX);
-      console.log(this.koordinatY);
+    this.control = new ControlScaleLine({
+      target: this.elementRef.nativeElement,
     });
+    this.map.addControl(this.control);
   }
-   provinceChange(provinceID: number) {
-     if (provinceID) {
-       this.tasinmazService
-         .getTasinmazByProvinceID(provinceID)
-         .subscribe((data) => {
-           console.log(data);
-           this.tasinmazAddForm.controls.countryID.enable();
-          //  this.country = data;
-           this.nb = null;
-         });
-     } else {
-       this.tasinmazAddForm.controls.countryID.disable();
-       this.tasinmazAddForm.controls.nb.disable();
-       this.country = null;
-       this.nb = null;
-     }
-   }
-   onChange(event){
-     if(event){
-     console.log(event);
-      
-     }
-     else{
-       console.log("Event yok.");
-     }
-   }
-   countryChange(countryID: number) {
-     if (countryID) {
-       this.tasinmazService
-         .getTasinmazByCountryID(countryID)
-         .subscribe((data) => {
-          console.log(data);
+  onChange(provinceID) {
+    if (provinceID) {
+      console.log(provinceID);
+      this.countryService.getCountryById(provinceID).subscribe((data) => {
+        console.log(data);
+        this.tasinmazAddForm.controls.countryID.enable();
+        this.country = data.data;
+        this.nb = null;
+      });
+    } else {
+      console.log(provinceID);
 
-           this.tasinmazAddForm.controls.nbID.enable();
-          //  this.nb = data;
-         });
-     } else {
-       this.tasinmazAddForm.controls.nb.disable();
-       this.nb = null;
-     }
-   }
+      this.tasinmazAddForm.controls.countryID.disable();
+      this.tasinmazAddForm.controls.nbID.disable();
+      this.country = null;
+      this.nb = null;
+    }
+  }
+
+  countryChange(countryID: number) {
+    if (countryID) {
+      console.log(countryID);
+      this.nbService.getNbByCId(countryID).subscribe((data) => {
+        this.tasinmazAddForm.controls.nbID.enable();
+        this.nb = data.data;
+      });
+    } else {
+      this.tasinmazAddForm.controls.nb.disable();
+      this.nb = null;
+    }
+  }
+
   getCoord(event) {
     var coordinate = this.map.getEventCoordinate(event);
     this.koordinatX = coordinate[1];
     this.koordinatY = coordinate[0];
+    console.log(coordinate);
+    console.log(this.koordinatX);
+    console.log(this.koordinatY);
     this.tasinmazAddForm.controls["koordinatX"].setValue(
       this.koordinatX.toString()
     );
     this.tasinmazAddForm.controls["koordinatY"].setValue(
       this.koordinatY.toString()
     );
-    let ref = document.getElementById("cancel");
-    ref.click();
+    // document.getElementById("closeModalButton").click();
+    this.closeModal.nativeElement.click();
+
+    // ref.click();
   }
 
   createTasinmazAddForm() {
@@ -196,7 +193,6 @@ export class TasinmazAddComponent implements OnInit {
       countryID: ["", Validators.required],
       nbID: ["", Validators.required],
       ada: ["", Validators.required],
-      uID:[""], 
       parsel: ["", Validators.required],
       nitelik: ["", Validators.required],
       koordinatX: ["", Validators.required],
@@ -204,18 +200,26 @@ export class TasinmazAddComponent implements OnInit {
     });
   }
   addTasinmaz() {
+    console.log(this.tasinmazAddForm);
+    console.log(this.tasinmazAddForm.valid);
     if (this.tasinmazAddForm.valid) {
       let tasinmazModel = Object.assign({}, this.tasinmazAddForm.value);
-      tasinmazModel["provinceID"]=parseInt(tasinmazModel["provinceID"])
-      tasinmazModel["countryID"]=parseInt(tasinmazModel["countryID"])
-      tasinmazModel["nbID"]=parseInt(tasinmazModel["nbID"])
-      tasinmazModel["uID"] = this.userID
-      this.tasinmazService.add(tasinmazModel).subscribe(
-        (response) => {
-          this.toastrService.success(response.message, "Başarılı!");
-          this.router.navigateByUrl("tasinmazlist");
-        }
-      );
+      tasinmazModel["provinceID"] = parseInt(tasinmazModel["provinceID"]);
+      tasinmazModel["countryID"] = parseInt(tasinmazModel["countryID"]);
+      tasinmazModel["nbID"] = parseInt(tasinmazModel["nbID"]);
+      tasinmazModel["uID"] = this.userID;
+      console.log("buraya kadar geldim mi?");
+      console.log(this.userID);
+      this.tasinmazService.add(tasinmazModel).subscribe((data) => {
+        console.log("buraya gir?");
+        this.tasinmazAddForm.reset();
+        this.toastrService.success("Yeni taşınmaz eklendi!", "Kayıt başarılı!");
+        this.tasinmazAddForm.controls.countryID.disable();
+        this.tasinmazAddForm.controls.nbID.disable();
+        this.nb = null;
+        this.country = null;
+        this.router.navigateByUrl("tasinmazlist");
+      });
     } else {
       this.toastrService.error("Formunuz eksik!", "Dikkat!");
     }

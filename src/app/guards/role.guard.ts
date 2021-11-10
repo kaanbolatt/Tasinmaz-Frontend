@@ -8,16 +8,16 @@ import {
 } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { Observable } from "rxjs";
-import { AuthService } from "../services/auth.service";
+import { UsersComponent } from "../components/user/users/users.component";
 
 @Injectable({
   providedIn: "root",
 })
-export class LoginGuard implements CanActivate {
+export class RoleGuard implements CanActivate {
   constructor(
-    private authService: AuthService,
     private toastrService: ToastrService,
-    private router: Router
+    private router: Router,
+    private userComponent: UsersComponent
   ) {}
   canActivate(
     route: ActivatedRouteSnapshot,
@@ -27,10 +27,12 @@ export class LoginGuard implements CanActivate {
     | Promise<boolean | UrlTree>
     | boolean
     | UrlTree {
-    if (this.authService.isAuthenticated()) {
+    if (this.userComponent.isAdmin()) {
+      console.log("bu adam admin");
       return true;
     } else {
-      this.router.navigate([""]);
+      console.log("bu adam user");
+      // this.router.navigate([""]);
       return false;
     }
   }

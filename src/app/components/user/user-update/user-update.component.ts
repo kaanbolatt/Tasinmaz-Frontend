@@ -1,9 +1,16 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, NgForm } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  NgForm,
+  Validators,
+} from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { UsersService } from "src/app/services/users.service";
 import { userUpdateModel } from "src/app/models/userUpdateModel";
 import { User } from "src/app/models/user";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-user-update",
@@ -13,7 +20,7 @@ import { User } from "src/app/models/user";
 export class UserUpdateComponent implements OnInit {
   userModelObj: userUpdateModel = new userUpdateModel();
   submitted = false;
-  user:User[] = [];
+  user: User[] = [];
 
   editUser = new FormGroup({
     uName: new FormControl(""),
@@ -30,11 +37,13 @@ export class UserUpdateComponent implements OnInit {
   public cancelClicked: boolean = false;
   public cancelText: string = "İptal";
   public confirmText: string = "Güncelle";
-
+  userRol;
   constructor(
     private router: ActivatedRoute,
     private userService: UsersService,
-    private routers: Router
+    private routers: Router,
+    private formBuilder: FormBuilder,
+    private toastrService: ToastrService
   ) {}
   results: any;
   ngOnInit(): void {
@@ -45,32 +54,75 @@ export class UserUpdateComponent implements OnInit {
         console.log(result["data"]);
         this.results = result;
         this.editUser = new FormGroup({
-          uName: new FormControl(result["data"]["0"]["uName"]),
-          uSurname: new FormControl(result["data"]["0"]["uSurname"]),
-          uMail: new FormControl(result["data"]["0"]["uMail"]),
-          uAdress: new FormControl(result["data"]["0"]["uAdress"]),
-          password: new FormControl(""),
-          uRol: new FormControl(result["data"]["0"]["uRol"]),
+          uName: new FormControl(
+            result["data"]["0"]["uName"],
+            Validators.required
+          ),
+          uSurname: new FormControl(
+            result["data"]["0"]["uSurname"],
+            Validators.required
+          ),
+          uMail: new FormControl(result["data"]["0"]["uMail"], [
+            Validators.required,
+            Validators.email,
+          ]),
+          uAdress: new FormControl(
+            result["data"]["0"]["uAdress"],
+            Validators.required
+          ),
+          password: new FormControl("", [
+            Validators.required,
+            Validators.minLength(8),
+            Validators.pattern(
+              "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&.])[A-Za-zd$@$!%*?&].{8,}"
+            ),
+          ]),
+          uRol: new FormControl(
+            result["data"]["0"]["uRol"],
+            Validators.required
+          ),
         });
         console.log(this.editUser);
       });
+
+    this.userService.getUserProfiler().subscribe((res) => {
+      console.log(res);
+      console.log(res["uID"]);
+      console.log(res["uName"]);
+      console.log(res["uRol"]);
+      this.userRol = res["uRol"];
+      console.log(this.userRol);
+    });
   }
   updateUser() {
-    this.userModelObj.uID = this.results["data"]["0"]["uID"];
-    this.userModelObj.uName = this.editUser.value.uName;
-    this.userModelObj.uSurname = this.editUser.value.uSurname;
-    this.userModelObj.uMail = this.editUser.value.uMail;
-    this.userModelObj.uAdress = this.editUser.value.uAdress;
-    this.userModelObj.password = this.editUser.value.password;
-    this.userModelObj.uRol = parseInt(this.editUser.value.uRol);
-    console.log(this.userModelObj);
-    this.userService
-      .updateUser(this.userModelObj, this.userModelObj.uID)
-      .subscribe((result) => {
-        this.editUser.reset();
-        this.userService.getUsers();
-        this.routers.navigateByUrl("userlist");
-      });
+    if (this.editUser.valid) {
+      this.userModelObj.uID = this.results["data"]["0"]["uID"];
+      this.userModelObj.uName = this.editUser.value.uName;
+      this.userModelObj.uSurname = this.editUser.value.uSurname;
+      this.userModelObj.uMail = this.editUser.value.uMail;
+      this.userModelObj.uAdress = this.editUser.value.uAdress;
+      this.userModelObj.password = this.editUser.value.password;
+      this.userModelObj.uRol = parseInt(this.editUser.value.uRol);
+      console.log(this.userModelObj);
+      console.log("buraya geliyoz mu?");
+      this.userService
+        .updateUser(this.userModelObj, this.userModelObj.uID)
+        .subscribe(
+          (result) => {
+            console.log("giriyon mu?");
+            this.editUser.reset();
+            this.userService.getUsers();
+            this.routers.navigateByUrl("userlist");
+          },
+          (responseError) => {
+            if (responseError.status == 400) {
+              this.toastrService.error("Mail kullanılıyor.", "Hata!");
+            }
+          }
+        );
+    } else {
+      this.toastrService.error("Formunuz eksik!", "Dikkat!");
+    }
   }
   logout() {
     localStorage.removeItem("token");

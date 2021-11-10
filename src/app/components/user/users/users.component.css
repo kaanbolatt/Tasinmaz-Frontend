@@ -1,19 +1,19 @@
 .btn-danger {
-  margin-left: 760px;
+  margin-left: 740px;
+  position: absolute !important;
 }
-.table{
+.table {
   width: 97%;
   margin-left: 25px;
 }
 .nav-link {
   margin-left: 200px;
 }
-.btn-primary{
-  margin-left:1400px;
+.btn-primary {
+  margin-left: 1400px;
   width: 300px;
   height: 56px;
   margin-top: 40px;
-  
 }
 html,
 body {
@@ -31,17 +31,14 @@ body {
   border-radius: 5px;
   width: 1500px;
   margin-left: 200px;
-  margin-top:20px;
+  margin-top: 20px;
 }
 .pagination {
   margin-left: -920px;
-  margin-top:50px;
-  
+  margin-top: 50px;
 }
 
 .row {
   margin-left: auto;
   margin-top: 30px;
 }
-
-

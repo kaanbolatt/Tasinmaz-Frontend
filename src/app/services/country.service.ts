@@ -16,4 +16,8 @@ export class CountryService {
     let newPath = this.apiUrl + "country/getall";
     return this.httpClient.get<ListResponseModel<Country>>(newPath);
   }
+  getCountryById(countryID:any): Observable<ListResponseModel<Country>>{
+    let newPath = this.apiUrl + "country/getbyprovinceid?id=" + countryID
+    return this.httpClient.get<ListResponseModel<Country>>(newPath);
+  }
 }

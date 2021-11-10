@@ -12,14 +12,19 @@ import { User } from "../models/user";
 export class UsersService {
   apiUrl = "https://localhost:44347/api/";
   constructor(private httpClient: HttpClient) {}
+  sifreKontrol =
+    "Şifre en az 8 karakterden oluşmalı. İçerisinde 1 özel karakter, 1 rakam ve en az 1 büyük harf içermelidir.";
+  boslukKontrol = "Bu alan boş bırakılamaz.";
 
   getUsers(): Observable<ListResponseModel<User>> {
     return this.httpClient.get<ListResponseModel<User>>(
       this.apiUrl + "users/getall"
     );
   }
-  getRols():Observable<ListResponseModel<Rol>>{
-    return this.httpClient.get<ListResponseModel<Rol>>(this.apiUrl+"rol/getall");
+  getRols(): Observable<ListResponseModel<Rol>> {
+    return this.httpClient.get<ListResponseModel<Rol>>(
+      this.apiUrl + "rol/getall"
+    );
   }
 
   add(user: User): Observable<ResponseModel> {
@@ -40,7 +45,6 @@ export class UsersService {
   }
 
   getUserProfiler() {
-    return this.httpClient.get(this.apiUrl + "GetUser/"); 
+    return this.httpClient.get(this.apiUrl + "GetUser/");
   }
 }
-  

@@ -1,7 +1,8 @@
 .btn-danger {
-  margin-left: 760px;
+  margin-left: 740px;
+  position: absolute !important;
 }
-.table{
+.table {
   width: 97%;
   margin-left: 25px;
 }

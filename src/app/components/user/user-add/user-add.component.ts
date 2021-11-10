@@ -28,9 +28,17 @@ export class UserAddComponent implements OnInit {
     private toastrService: ToastrService,
     private router: Router
   ) {}
-
+  userRol;
   ngOnInit() {
     this.createUserAddForm();
+    this.userService.getUserProfiler().subscribe((res: any) => {
+      console.log(res);
+      console.log(res.id);
+      console.log(res.name);
+      console.log(res.rol);
+      this.userRol = res.rol;
+      console.log(this.userRol);
+    });
   }
 
   createUserAddForm() {
@@ -38,15 +46,24 @@ export class UserAddComponent implements OnInit {
       uName: ["", Validators.required],
       uSurname: ["", Validators.required],
       uAdress: ["", Validators.required],
-      uMail: ["", [Validators.email, Validators.required]],
-      password: ["", Validators.required],
-      uRol: ["",Validators.required]
+      uMail: ["", [Validators.required, Validators.email]],
+      password: [
+        "",
+        [
+          Validators.required,
+          Validators.minLength(8),
+          Validators.pattern(
+            "(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[$@$!%*?&.])[A-Za-zd$@$!%*?&].{8,}"
+          ),
+        ],
+      ],
+      uRol: ["", Validators.required],
     });
   }
 
   add() {
     if (this.userAddForm.valid) {
-      this.userAddForm.value.uRol=parseInt(this.userAddForm.value.uRol)
+      this.userAddForm.value.uRol = parseInt(this.userAddForm.value.uRol);
       let userModel = Object.assign({}, this.userAddForm.value);
       console.log(this.userAddForm.value);
       this.userService.add(userModel).subscribe(
@@ -58,6 +75,9 @@ export class UserAddComponent implements OnInit {
           this.router.navigateByUrl("userlist");
         },
         (responseError) => {
+          if (responseError.status == 400) {
+            this.toastrService.error("Mail kullanılıyor.", "Hata!");
+          }
           if (responseError.error.Errors.length > 0) {
             for (
               let i = 0;

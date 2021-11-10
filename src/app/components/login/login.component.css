@@ -1,85 +1,79 @@
-@import url('https://fonts.googleapis.com/css?family=Numans');
-
-html,body{
-background-image: url('https://cdn.discordapp.com/attachments/816181426034180096/899617500185100348/wallpaperTasinmaz.png');
-background-size: cover;
-background-repeat: no-repeat;
-height: 931px;
-font-family: 'Numans', sans-serif;
+html,
+body {
+  background-image: url("https://cdn.discordapp.com/attachments/816181426034180096/899617500185100348/wallpaperTasinmaz.png");
+  background-size: cover;
+  background-repeat: no-repeat;
+  height: 931px;
 }
 
-.container{
-height: 100%;
-align-content: center;
+.container {
+  height: 100%;
+  align-content: center;
 }
 
-.card{
-height: 450px;
-margin-top: auto;
-margin-bottom: auto;
-width: 602px;
-background-color: rgb(255, 255, 255) !important;
-
+.card {
+  height: 450px;
+  margin-top: auto;
+  margin-bottom: auto;
+  width: 602px;
+  background-color: rgb(255, 255, 255) !important;
 }
 
-.image{
-    background-image: url('https://cdn.discordapp.com/attachments/816181426034180096/899617907141652520/loginPanel.jpeg');
-    background-repeat:no-repeat;
-      background-size: cover;
-    height: 450px;
+.image {
+  background-image: url("https://cdn.discordapp.com/attachments/816181426034180096/899617907141652520/loginPanel.jpeg");
+  background-repeat: no-repeat;
+  background-size: cover;
+  height: 450px;
 
-    width: 600px;
-    background-color: rgba(0,0,0,0.5) !important;
+  width: 600px;
+  background-color: rgba(0, 0, 0, 0.5) !important;
 }
 
-.imagecenter{
-    position: relative;
-    left: 8px;
-    bottom: -35px;
+.imagecenter {
+  position: relative;
+  left: 8px;
+  bottom: -35px;
 }
 
-
-.card-header h3{
-color: white;
+.card-header h3 {
+  color: white;
 }
 
-.social_icon{
-position: absolute;
-right: 20px;
-top: -45px;
+.social_icon {
+  position: absolute;
+  right: 20px;
+  top: -45px;
 }
 
-.input-group-prepend span{
-width: 50px;
-background-color: #FFC312;
-color: black;
-border:0 !important;
+.input-group-prepend span {
+  width: 50px;
+  background-color: #ffc312;
+  color: black;
+  border: 0 !important;
 }
 
-input:focus{
-outline: 0 0 0 0  !important;
-box-shadow: 0 0 0 0 !important;
-
+input:focus {
+  outline: 0 0 0 0 !important;
+  box-shadow: 0 0 0 0 !important;
 }
 
-
-.login_btn{
-color: black;
-background-color: #FFC312;
-width: 100px;
-position:relative;
-left: -225px;
+.login_btn {
+  color: black;
+  background-color: #ffc312;
+  width: 100px;
+  position: relative;
+  left: -225px;
 }
 
-.login_btn:hover{
-color: black;
-background-color: white;
+.login_btn:hover {
+  color: black;
+  background-color: white;
 }
 
-.links{
-color: white;
+.links {
+  color: white;
 }
 
-.links a{
-margin-left: 4px;
+.links a {
+  margin-left: 4px;
 }

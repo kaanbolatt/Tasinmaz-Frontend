@@ -1,154 +1,272 @@
 <html>
-  <title>odakGIS - User Add</title>
-  <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
-    <div class="container-fluid">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-link active" href="useradd">Yeni Kullanıcı Ekle</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="loglist">Log Listesi</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="tasinmazlist">Taşınmaz Listesi</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-link" href="userlist">Kullanıcı Listesi</a>
-        </li>
-        <li class="d-flex">
-          <button type="button" class="btn btn-danger" (click)="logout()">
-            Çıkış Yap
-          </button>
-        </li>
-      </ul>
-    </div>
-  </nav>
+  <ng-container *ngIf="userRol == 4">
+    <meta
+      http-equiv="refresh"
+      content="1;URL=http://localhost:4200/tasinmazlist"
+    />
+  </ng-container>
+  <ng-container *ngIf="userRol == 1">
+    <title>odakGIS - User Add</title>
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <div class="container-fluid">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link active" href="useradd">Yeni Kullanıcı Ekle</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="loglist">Log Listesi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="tasinmazlist">Taşınmaz Listesi</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="userlist">Kullanıcı Listesi</a>
+          </li>
+          <li class="d-flex">
+            <button type="button" class="btn btn-danger" (click)="logout()">
+              Çıkış Yap
+            </button>
+          </li>
+        </ul>
+      </div>
+    </nav>
 
-  <!-- navi -->
+    <!-- navi -->
 
-  <div class="content">
-    <div class="col-md-1">
-      <div class="card">
-        <div class="card-header"><h5 class="title">Kullanıcı Ekle</h5></div>
-        <div class="card-body">
-          <form [formGroup]="userAddForm">
-            <div class="form-group">
+    <div class="content">
+      <div class="col-md-1">
+        <div class="card">
+          <div class="card-header"><h5 class="title">Kullanıcı Ekle</h5></div>
+          <div class="card-body">
+            <form [formGroup]="userAddForm">
+              <div class="form-group">
+                <div class="mb-3">
+                  <label class="input-group-text" for="inputGroupSelect01"
+                    >Ad</label
+                  >
+                  <input
+                    type="text"
+                    id="uName"
+                    formControlName="uName"
+                    class="form-control"
+                    placeholder="Ad"
+                  />
+                  <label
+                    class="alert alert-danger"
+                    style="margin-left: 625px"
+                    role="alert"
+                    *ngIf="
+                      userAddForm.get('uName').touched &&
+                      userAddForm.get('uName').invalid
+                    "
+                    >{{ userService.boslukKontrol }}</label
+                  >
+                  <label
+                    class="alert alert-danger"
+                    style="margin-left: 625px"
+                    role="alert"
+                    *ngIf="
+                      userAddForm.get('uName').touched &&
+                      userAddForm.get('uName').required
+                    "
+                    >{{ userService.boslukKontrol }}</label
+                  >
+                </div>
+              </div>
               <div class="mb-3">
                 <label class="input-group-text" for="inputGroupSelect01"
-                  >Ad</label
+                  >Soyad</label
                 >
-                <input
-                  type="text"
-                  id="uName"
-                  formControlName="uName"
-                  class="form-control"
-                  placeholder="Ad"
-                />
+                <div class="form-group">
+                  <input
+                    type="text"
+                    id="uSurname"
+                    formControlName="uSurname"
+                    class="form-control"
+                    placeholder="Soyad"
+                  />
+                  <label
+                    class="alert alert-danger"
+                    style="margin-left: 625px"
+                    role="alert"
+                    *ngIf="
+                      userAddForm.get('uSurname').touched &&
+                      userAddForm.get('uSurname').invalid
+                    "
+                    >{{ userService.boslukKontrol }}</label
+                  >
+                  <label
+                    class="alert alert-danger"
+                    style="margin-left: 625px"
+                    role="alert"
+                    *ngIf="
+                      userAddForm.get('uSurname').touched &&
+                      userAddForm.get('uSurname').required
+                    "
+                    >{{ userService.boslukKontrol }}</label
+                  >
+                </div>
               </div>
-            </div>
-            <div class="mb-3">
-              <label class="input-group-text" for="inputGroupSelect01"
-                >Soyad</label
-              >
-              <div class="form-group">
-                <input
-                  type="text"
-                  id="uSurname"
-                  formControlName="uSurname"
-                  class="form-control"
-                  placeholder="Soyad"
-                />
+              <div class="mb-3">
+                <label class="input-group-text" for="inputGroupSelect01"
+                  >Mail</label
+                >
+                <div class="form-group">
+                  <input
+                    type="email"
+                    id="uMail"
+                    formControlName="uMail"
+                    class="form-control"
+                    placeholder="Mail"
+                  />
+                  <label
+                    class="alert alert-danger"
+                    style="margin-left: 625px"
+                    role="alert"
+                    *ngIf="
+                      userAddForm.get('uMail').touched &&
+                      userAddForm.get('uMail').invalid
+                    "
+                    >{{ userService.boslukKontrol }}</label
+                  >
+                  <label
+                    class="alert alert-danger"
+                    style="margin-left: 625px"
+                    role="alert"
+                    *ngIf="
+                      userAddForm.get('uMail').touched &&
+                      userAddForm.get('uMail').required
+                    "
+                    >{{ userService.boslukKontrol }}</label
+                  >
+                </div>
               </div>
-            </div>
-            <div class="mb-3">
-              <label class="input-group-text" for="inputGroupSelect01"
-                >Mail</label
-              >
-              <div class="form-group">
-                <input
-                  type="email"
-                  id="uMail"
-                  formControlName="uMail"
-                  class="form-control"
-                  placeholder="Mail"
-                />
+              <div class="mb-3">
+                <label class="input-group-text" for="inputGroupSelect01"
+                  >Adres</label
+                >
+                <div class="form-group">
+                  <input
+                    type="text"
+                    id="uAdress"
+                    formControlName="uAdress"
+                    class="form-control"
+                    placeholder="Adres"
+                  />
+                  <label
+                    class="alert alert-danger"
+                    style="margin-left: 625px"
+                    role="alert"
+                    *ngIf="
+                      userAddForm.get('uAdress').touched &&
+                      userAddForm.get('uAdress').invalid
+                    "
+                    >{{ userService.boslukKontrol }}</label
+                  >
+                  <label
+                    class="alert alert-danger"
+                    style="margin-left: 625px"
+                    role="alert"
+                    *ngIf="
+                      userAddForm.get('uAdress').touched &&
+                      userAddForm.get('uAdress').required
+                    "
+                    >{{ userService.boslukKontrol }}</label
+                  >
+                </div>
               </div>
-            </div>
-            <div class="mb-3">
-              <label class="input-group-text" for="inputGroupSelect01"
-                >Adres</label
-              >
-              <div class="form-group">
-                <input
-                  type="text"
-                  id="uAdress"
-                  formControlName="uAdress"
-                  class="form-control"
-                  placeholder="Adres"
-                />
+              <div class="mb-3">
+                <label class="input-group-text" for="inputGroupSelect01"
+                  >Rol</label
+                >
+                <div class="form-group">
+                  <select
+                    class="form-control"
+                    id="uRol"
+                    formControlName="uRol"
+                    style="padding-top: 1px"
+                    required
+                    aria-label
+                  >
+                    <option value="1">Admin</option>
+                    <option value="4">User</option>
+                  </select>
+                  <label
+                    class="alert alert-danger"
+                    style="margin-left: 625px"
+                    role="alert"
+                    *ngIf="
+                      userAddForm.get('uRol').touched &&
+                      userAddForm.get('uRol').invalid
+                    "
+                    >{{ userService.boslukKontrol }}</label
+                  >
+                  <label
+                    class="alert alert-danger"
+                    style="margin-left: 350px"
+                    role="alert"
+                    *ngIf="
+                      userAddForm.get('uRol').touched &&
+                      userAddForm.get('uRol').required
+                    "
+                    >{{ userService.boslukKontrol }}</label
+                  >
+                </div>
               </div>
-            </div>
-            <div class="mb-3">
-            <label class="input-group-text" for="inputGroupSelect01"
-                >Rol</label
-              >
-            <div class="form-group">
-              <select
-                class="form-control"
-                id="uRol"
-                formControlName="uRol"
-                style="padding-top: 1px"
-                required
-                aria-label
-              >
-                <option value="1">
-                Admin  
-                </option>
-                <option value="4">
-                User  
-                </option>
-              </select>
-            </div>
-            </div>
-            <!-- <div class="mb-3">
+              <!-- <div class="mb-3">
               <label class="input-group-text" for="inputGroupSelect01">Rol</label>
       <select class="form-select" id="inputGroupSelect01" formControlName="uRole">
         <option [ngValue]="true">Kullanıcı</option>
         <option [ngValue]="false">Yönetici</option>
       </select>
               </div> -->
-            <div class="mb-3">
-              <label class="input-group-text" for="inputGroupSelect01"
-                >Şifre</label
-              >
-              <div class="form-group">
-                <input
-                  type="password"
-                  id="password"
-                  formControlName="password"
-                  class="form-control"
-                  placeholder="Şifre"
-                />
+              <div class="mb-3">
+                <label class="input-group-text" for="inputGroupSelect01"
+                  >Şifre</label
+                >
+                <div class="form-group">
+                  <input
+                    type="password"
+                    id="password"
+                    formControlName="password"
+                    class="form-control"
+                    placeholder="Şifre"
+                  />
+                  <br />
+                  <label
+                    class="alert alert-danger"
+                    style="margin-left: 350px"
+                    role="alert"
+                    *ngIf="
+                      userAddForm.get('password').touched &&
+                      userAddForm.get('password').errors?.pattern
+                    "
+                    >{{ userService.sifreKontrol }}</label
+                  >
+                </div>
               </div>
+            </form>
+          </div>
+          <div>
+            <div class="card-footer">
+              <button
+                class="btn btn-fill btn-primary"
+                mwlConfirmationPopover
+                [popoverTitle]="popoverTitle"
+                [popoverMessage]="popoverMessage"
+                placement="left"
+                confirmButtonType="success"
+                [cancelText]="cancelText"
+                [confirmText]="confirmText"
+                (confirm)="add()"
+                (cancel)="cancelClicked = true"
+              >
+                Ekle
+              </button>
             </div>
-          </form>
-        </div>
-        <div>
-          <div class="card-footer">
-            <button class="btn btn-fill btn-primary" mwlConfirmationPopover
-            [popoverTitle]="popoverTitle"
-            [popoverMessage]="popoverMessage"
-            placement="left"
-            confirmButtonType="success"
-            [cancelText]="cancelText"
-            [confirmText]="confirmText"
-            (confirm)="add()"
-            (cancel)="cancelClicked =true">
-              Ekle
-            </button>
           </div>
         </div>
       </div>
     </div>
-  </div>
+  </ng-container>
 </html>

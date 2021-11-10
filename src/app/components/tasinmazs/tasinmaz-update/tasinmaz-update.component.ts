@@ -1,5 +1,5 @@
 import { Component, OnInit } from "@angular/core";
-import { FormControl, FormGroup, NgForm } from "@angular/forms";
+import { FormControl, FormGroup, NgForm, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
 import { TasinmazService } from "src/app/services/tasinmaz.service";
 import { tasinmazUpdateModel } from "src/app/models/tasinmazUpdateModel";
@@ -9,6 +9,7 @@ import { NbService } from "src/app/services/nb.service";
 import { Country } from "src/app/models/country";
 import { Province } from "src/app/models/province";
 import { Neighbourhood } from "src/app/models/nb";
+import { ToastrService } from "ngx-toastr";
 
 @Component({
   selector: "app-tasinmaz-update",
@@ -45,7 +46,8 @@ export class TasinmazUpdateComponent implements OnInit {
     private routers: Router,
     private provinceService: ProvinceService,
     private countryService: CountryService,
-    private nbService: NbService
+    private nbService: NbService,
+    private toastrService: ToastrService
   ) {}
 
   results: any;
@@ -54,22 +56,40 @@ export class TasinmazUpdateComponent implements OnInit {
       .getCurrentData(this.router.snapshot.params.id)
       .subscribe((result) => {
         console.log(result["data"]);
-        
+
         this.results = result;
         this.editTasinmaz = new FormGroup({
-          provinceID: new FormControl(result["data"]["provinceID"]),
-          countryID: new FormControl(result["data"]["countryID"]),
-          nbID: new FormControl(result["data"]["nbID"]),
-          ada: new FormControl(result["data"]["ada"]),
-          nitelik: new FormControl(result["data"]["nitelik"]),
-          parsel: new FormControl(result["data"]["parsel"]),
-          koordinatX: new FormControl(result["data"]["koordinatX"]),
-          koordinatY: new FormControl(result["data"]["koordinatY"]),
+          provinceID: new FormControl(
+            result["data"]["provinceID"],
+            Validators.required
+          ),
+          countryID: new FormControl(
+            result["data"]["countryID"],
+            Validators.required
+          ),
+          nbID: new FormControl(result["data"]["nbID"], Validators.required),
+          ada: new FormControl(result["data"]["ada"], Validators.required),
+          nitelik: new FormControl(
+            result["data"]["nitelik"],
+            Validators.required
+          ),
+          parsel: new FormControl(
+            result["data"]["parsel"],
+            Validators.required
+          ),
+          koordinatX: new FormControl(
+            result["data"]["koordinatX"],
+            Validators.required
+          ),
+          koordinatY: new FormControl(
+            result["data"]["koordinatY"],
+            Validators.required
+          ),
         });
       });
-      this.getNb();
-      this.getCountry();
-      this.getProvinces();
+    this.getNb();
+    this.getCountry();
+    this.getProvinces();
   }
   getNb() {
     this.nbService.getNb().subscribe((response) => {
@@ -86,32 +106,78 @@ export class TasinmazUpdateComponent implements OnInit {
       this.provinces = response.data;
     });
   }
-  onChange(event){
-    if(event){
-    console.log(event);
-     
+  onChange(event) {
+    if (event) {
+      this.countryService.getCountryById(event).subscribe((data) => {
+        this.editTasinmaz.controls.countryID.enable();
+        this.editTasinmaz.controls.nbID.disable();
+        this.country = data.data;
+        this.editTasinmaz.value.countryID = null;
+        this.nb = null;
+        console.log("object");
+      });
+    } else {
+      this.editTasinmaz.controls.countryID.disable();
+      this.editTasinmaz.controls.nbID.disable();
+      this.country = null;
+      this.nb = null;
     }
-    else{
-      console.log("Event yok.");
+  }
+
+  countryChange(countryID: number) {
+    if (countryID) {
+      console.log(countryID);
+      this.nbService.getNbByCId(countryID).subscribe(
+        (data) => {
+          this.editTasinmaz.controls.nbID.enable();
+          this.nb = data.data;
+          this.editTasinmaz.value.nbID = null;
+          console.log(this.nb);
+        },
+        (responseError) => {
+          if (responseError.status == 400) {
+            this.toastrService.error("Boş alan var!", "Hata!");
+          }
+        }
+      );
+    } else {
+      console.log("else girdim mi?");
+      this.editTasinmaz.controls.nb.disable();
+      this.nb = null;
     }
   }
   updateTasinmaz() {
-    this.tasinmazModelObj.tID = this.results["data"]["tID"];
-    this.tasinmazModelObj.provinceID = parseInt(this.editTasinmaz.value.provinceID);
-    this.tasinmazModelObj.countryID = parseInt(this.editTasinmaz.value.countryID);
-    this.tasinmazModelObj.nbID = parseInt(this.editTasinmaz.value.nbID);
-    this.tasinmazModelObj.ada = this.editTasinmaz.value.ada;
-    this.tasinmazModelObj.nitelik = this.editTasinmaz.value.nitelik;
-    this.tasinmazModelObj.parsel = this.editTasinmaz.value.parsel;
-    this.tasinmazModelObj.koordinatX = this.editTasinmaz.value.koordinatX;
-    this.tasinmazModelObj.koordinatY = this.editTasinmaz.value.koordinatY;
-    this.tasinmazService
-      .updateTasinmaz(this.tasinmazModelObj, this.tasinmazModelObj.tID)
-      .subscribe((result) => {
-        this.editTasinmaz.reset();
-        this.tasinmazService.getTasinmaz();
-        this.routers.navigateByUrl("tasinmazlist");
-      });
+    if (this.editTasinmaz.valid) {
+      this.tasinmazModelObj.Id = this.results["data"]["Id"];
+      this.tasinmazModelObj.provinceID = parseInt(
+        this.editTasinmaz.value.provinceID
+      );
+      this.tasinmazModelObj.countryID = parseInt(
+        this.editTasinmaz.value.countryID
+      );
+      this.tasinmazModelObj.nbID = parseInt(this.editTasinmaz.value.nbID);
+      this.tasinmazModelObj.ada = this.editTasinmaz.value.ada;
+      this.tasinmazModelObj.nitelik = this.editTasinmaz.value.nitelik;
+      this.tasinmazModelObj.parsel = this.editTasinmaz.value.parsel;
+      this.tasinmazModelObj.koordinatX = this.editTasinmaz.value.koordinatX;
+      this.tasinmazModelObj.koordinatY = this.editTasinmaz.value.koordinatY;
+      this.tasinmazService
+        .updateTasinmaz(this.tasinmazModelObj, this.tasinmazModelObj.Id)
+        .subscribe(
+          (result) => {
+            this.editTasinmaz.reset();
+            this.tasinmazService.getTasinmaz();
+            this.routers.navigateByUrl("tasinmazlist");
+          },
+          (responseError) => {
+            if (responseError.status == 400) {
+              this.toastrService.error("Boş alan var!", "Hata!");
+            }
+          }
+        );
+    } else {
+      this.toastrService.error("Formunuz eksik!", "Dikkat!");
+    }
   }
   logout() {
     localStorage.removeItem("token");

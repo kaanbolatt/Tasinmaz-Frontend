@@ -10,6 +10,7 @@ import { ResponseModel } from "../models/responseModel";
 })
 export class TasinmazService {
   apiUrl = "https://localhost:44347/api/";
+  boslukKontrol = "Bu alan boş bırakılamaz.";
 
   constructor(private httpClient: HttpClient) {}
 
@@ -23,25 +24,35 @@ export class TasinmazService {
     return this.httpClient.get<ListResponseModel<Tasinmaz>>(newPath);
   }
 
-  getTasinmazByProvinceID(provinceID:number): Observable<ListResponseModel<Tasinmaz>> {
-    return this.httpClient.get<ListResponseModel<Tasinmaz>>(this.apiUrl + "tasinmaz/province/" +provinceID)
+  getTasinmazByProvinceID(
+    provinceID: number
+  ): Observable<ListResponseModel<Tasinmaz>> {
+    return this.httpClient.get<ListResponseModel<Tasinmaz>>(
+      this.apiUrl + "tasinmaz/province/" + provinceID
+    );
   }
-  getTasinmazByCountryID(countryID:number): Observable<ListResponseModel<Tasinmaz>>{
-    return this.httpClient.get<ListResponseModel<Tasinmaz>>(this.apiUrl+"tasinmaz/country/" +countryID)
+  getTasinmazByCountryID(
+    countryID: number
+  ): Observable<ListResponseModel<Tasinmaz>> {
+    return this.httpClient.get<ListResponseModel<Tasinmaz>>(
+      this.apiUrl + "tasinmaz/country/" + countryID
+    );
   }
 
+  add(tasinmaz: Tasinmaz): Observable<ResponseModel> {
+    return this.httpClient.post<ResponseModel>(
+      this.apiUrl + "tasinmaz/add",
+      tasinmaz
+    );
+  }
+  deleteTasinmaz(Id) {
+    return this.httpClient.delete(this.apiUrl + "tasinmaz/" + Id);
+  }
 
-  add(tasinmaz: Tasinmaz):Observable<ResponseModel>{
-    return this.httpClient.post<ResponseModel>(this.apiUrl + "tasinmaz/add",tasinmaz);
+  getCurrentData(Id) {
+    return this.httpClient.get(this.apiUrl + "tasinmaz/" + Id);
   }
-  deleteTasinmaz(tID) {
-    return this.httpClient.delete(this.apiUrl + "tasinmaz/" + tID);
-  }
-
-  getCurrentData(tID) {
-    return this.httpClient.get(this.apiUrl + "tasinmaz/" + tID);
-  }
-  updateTasinmaz(data: any, tID: number) {
-    return this.httpClient.put(this.apiUrl + "tasinmaz/update/" + tID, data);
+  updateTasinmaz(data: any, Id: number) {
+    return this.httpClient.put(this.apiUrl + "tasinmaz/update/" + Id, data);
   }
 }
