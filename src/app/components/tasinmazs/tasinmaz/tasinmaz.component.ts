@@ -10,6 +10,7 @@ import Tile from "ol/layer/Tile";
 import Overlay from "ol/Overlay";
 import OSM from "ol/source/OSM";
 import XYZ from "ol/source/XYZ";
+import { FeatureCollection } from "geojson";
 import { fromLonLat, transform, toLonLat } from "ol/proj.js";
 import { toStringHDMS } from "ol/coordinate";
 import Feature from "ol/Feature";
@@ -25,6 +26,8 @@ import ControlScaleLine from "ol/control/ScaleLine";
 import { CountryService } from "src/app/services/country.service";
 import { NbService } from "src/app/services/nb.service";
 import { ProvinceService } from "src/app/services/province.service";
+import { utils } from "protractor";
+import { Summary } from "@angular/compiler";
 
 @Component({
   selector: "app-tasinmaz",
@@ -62,7 +65,7 @@ export class TasinmazComponent implements OnInit {
     private nbService: NbService,
     private provinceService: ProvinceService
   ) {}
-
+  staticBreadcrumbs: GeoJSON.FeatureCollection<GeoJSON.Geometry>;
   results: any;
   userRol: number;
   userID: number;
@@ -145,8 +148,38 @@ export class TasinmazComponent implements OnInit {
     });
     this.map.addControl(this.control);
   }
+  koordinatPoint: any;
   gotoCoord(koordinatX, koordinatY) {
-    // console.log("X koordinatı: " + koordinatX + " Y koordinatı: " + koordinatY);
+    console.log("X koordinatı: " + koordinatX + " Y koordinatı: " + koordinatY);
+    this.koordinatPoint = toLonLat([koordinatX, koordinatY]);
+    console.log(this.koordinatPoint);
+
+    // this.staticBreadcrumbs = {
+    //   type: "FeatureCollection",
+    //   features: [
+    //     {
+    //       type: "Feature",
+    //       properties: {
+    //         id: 12,
+    //       },
+    //       geometry: {
+    //         type: "Point",
+    //         coordinates: [koordinatX, koordinatY],
+    //       },
+    //     },
+    //   ],
+    // };
+    // console.log(
+    //   this.staticBreadcrumbs.features[0].geometry["coordinates"] +
+    //     " " +
+    //     this.staticBreadcrumbs.features[0]
+    // );
+
+    // if (this.staticBreadcrumbs.features[0].geometry.type === "Point") {
+    //   this.staticBreadcrumbs.features[0].geometry.coordinates[koordinatX];
+    //   this.staticBreadcrumbs.features[0].geometry.coordinates[koordinatY];
+    //   console.log(this.staticBreadcrumbs);
+    // }
     this.map.setView(
       new View({
         center: [koordinatY, koordinatX],
